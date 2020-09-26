@@ -1,5 +1,10 @@
 const STORY_1 = {
     "title": "Město za branou",
+    "startItems": [
+        {itemId:"SWIMMING", description: "Plavání", count: 1},
+        {itemId:"MONEY", description: "Měšec", count:5}
+    ],    
+
     "1" : {
         text : "Stojíš před branou města. Okolo města je příkop, přes který vede most přímo k hlavní bráně. Půjdeš <po mostě|3>, nebo zkusíš <přeplavat příkop|2>, nebo zkusíš <přelézt zeď po laně|26|ROPE>?"
     },
@@ -30,13 +35,18 @@ const STORY_1 = {
         text: "Uslyšíš jak strážce brány zavrčí a citíš jak tě silné ruce chytají za ramena. Uvědomuješ si, že <letíš do příkopu|22>"
     },
     
-
+    // part 2 -start
     "10": {
-        text: "Stojíš za hlavní branou. Kam půjdeš teď?"
-    },
+        text: "Stojíš za hlavní branou. Kam půjdeš teď? <Do hostince|27>"
+    },    
 
     "12": {
         text: "Topíš se, hoď si mincí. Pokud <uspěješ|13>, pokud <nikoliv|25>"
+    },
+
+    //TODO
+    "16": {
+        text: "Úspěšně jsi pronikl do města! Kam půjdeš teď? <Do hostince|27>"
     },
 
     "22": {
@@ -57,7 +67,38 @@ const STORY_1 = {
     "25": {
         text: "Utopil jsi se, tvé dobrodružství končí.",
         end:true
-    }
+    },
+
+    "26": {
+        text: "Přelézáš zeď po laně",      
+    },
+
+    "27": {
+        text: "Vešel jsi do hospody. {ZENAPRYC:-1} Za barem stojí mohutný vousatý barman, a leští sklenice. Také na tebe podezřívavě hledí.",
+        options: ["<Jít za barmanem|28>", "<vrátit se|10>."]      
+    },
+
+    "27.ZENAPRYC:-1": {
+        text: "O bar se lokty opírá svůdně oblečená žena a měří si tě pohledem.",
+        options: "<jít za ženou|29>"      
+    },
+
+    "28": {
+        text: "Jdeš směrem k baru a výčepní se tě jen stroze optá 'Pivo?' <Ano|30>, <ne|31>",      
+    },
+
+    "29": {
+        text: "Jdeš za ženou, Tváří se hrozně znuděně. {SMRAD|DEFAULT}",      
+    },
+
+    "29.SMRAD": {
+        text: "Už se chystala něco říct, ale jakmile ses přiblížil nakrčila nos a se znechuceným výrazem odešla. <Vyber si něco jiného|27>",
+        gainStatus: {statusId: "ZENAPRYC"}
+    },
+    "29.DEFAULT": {
+        text: "Ale jakmile ses přiblížil, usmála se a jedním okem na tebe mrkla."
+
+    },
 
 
 
