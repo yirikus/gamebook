@@ -3,13 +3,38 @@ var game = {
     status: null
 }
 
+const STORIES = [
+    DUMMY_STORY,
+    STORY_1
+];
+
 const version = "26.9.2020, 17:33 (v4 - with style!)";
 
 const main = () => {  
-    writeElement("version", version) 
-    testStory(STORY_1);  
-    startGame(STORY_1);    
-    gotoPage("1");
+    writeElement("version", version);
+    renderStories(STORIES);     
+}
+
+const renderStories = (stories) => {
+    let availableStories = '<ul>';
+    for (let i = 0; i < stories.length; i++) {
+        let storyTitle = stories[i].title;
+        availableStories += '<li><a href="#" onclick="chooseStory(\'' + storyTitle + '\')">' + storyTitle + '</a></li>';
+    }
+    availableStories += '</ul>';
+    writeElement("availableStories", availableStories);
+}
+
+const chooseStory = (storyTitle) => {
+    for (let i = 0; i < STORIES.length; i++) {
+        if (STORIES[i].title === storyTitle) {
+            writeElement("availableStories", '');
+            testStory(STORIES[i]);  
+            startGame(STORIES[i]);    
+            gotoPage("1");
+            return;
+        }
+    }
 }
 
 const testStory = (story) => {
@@ -86,7 +111,12 @@ const addItem = (itemToAdd) => {
  * Writes given string value to an element with given id
  */
 const writeElement = (elementId, value) => {
-    document.getElementById(elementId).innerHTML = value;    
+    let element = document.getElementById(elementId);
+    if (!element) {
+        console.error('cannot write element, [' + elementId + '] does not exist!');
+        return;
+    }
+    element.innerHTML = value;    
 }
 
 const renderPage = (pageId) => {   
@@ -143,19 +173,21 @@ const findItem = (itemId) => {
  */
 const hasItem = (item) => {
     let found = findItem(item.itemId) 
-    return !found || (!item.count || found.count >= item.count)    
+    return (found && (!item.count || (item.count > 0 && found.count >= item.count))) 
+        || (!found && item.count < 0);
 }
 
 /**
  * Converts text condition to object with itemId and count
  *  name -> {itemId: "name"}
  *  name:5 -> {itemId: "name", count: 5}
+ * !name -> must not have name
  */
 parseItemCondition = (condition) => {
-    splitted = condition.split(":");
+    splitted = condition.split(":");    
     return {
         itemId: splitted[0], 
-        count: splitted[1]
+        count: splitted[1],
     };
 }
 
@@ -198,11 +230,12 @@ const getLocations = (text) => {
 }
 
 const startGame = (story) => {
+    writeElement("storyTitle",story.title);
     game.activeStory = story;
     game.status = {
         page : 0,
         inventory: [
-            {itemId:"SWIMMING", description: "Plavání", count: 1},
+          //  {itemId:"SWIMMING", description: "Plavání", count: 1},
             {itemId:"MONEY", description: "Měšec", count:5}
         ]
     };

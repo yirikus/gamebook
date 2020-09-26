@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <title>Simple gamebooks!</title>
         <script src="stories/story1.js"></script>
+        <script src="stories/dummyStory.js"></script>
         <script defer="defer" src="app.js"></script>
         <link rel="stylesheet" href="style.css">
 
@@ -12,9 +13,15 @@
     </head>
     <body>
         <div class= container>
-            <h1 id="pageId"></h1>
+            <h1 id="storyTitle"></h1>
+            <div id="availableStories"></div>
+            <h2 id="pageId"></h1>
             <div id="page"></div>
-            <div id="character"></div>
+            <div class="alert alert-secondary top-buffer" role="alert">
+                <h4 class="alert-heading">Předměty a schopnosti:</h4>
+                <div id="character"></div>
+            </div>
+            
         </div>
         <footer class="footer">
             <div class="container">

@@ -1,6 +1,7 @@
 const STORY_1 = {
+    "title": "Město za branou",
     "1" : {
-        text : "Stojíš před branou města. Okolo města je příkop, přes který vede most přímo k hlavní bráně. Půjdeš <po mostě|3>, nebo zkusíš <přeplavat příkop|2>?"
+        text : "Stojíš před branou města. Okolo města je příkop, přes který vede most přímo k hlavní bráně. Půjdeš <po mostě|3>, nebo zkusíš <přeplavat příkop|2>, nebo zkusíš <přelézt zeď po laně|26|ROPE>?"
     },
     "2" : {
         text : "Najdeš si místo, kde je možné přeplavat příkop a vniknout do městské kanalizace. <Skočíš do příkopu|22>" 
@@ -39,7 +40,7 @@ const STORY_1 = {
     },
 
     "22": {
-        text: "*ŠPLOUCH*. Jsi ve městském příkopu. Smrdí jako prase. Není divu, když sem vytékájí kanalizací veškeré tekutiny vyloučené obyvateli města. Teď i ty smrdíš jako prase. Umíš Vůbec plavat? <Ano|8|SWIMMING>, <Ne|12>",
+        text: "*ŠPLOUCH*. Jsi ve městském příkopu. Smrdí jako prase. Není divu, když sem vytékájí kanalizací veškeré tekutiny vyloučené obyvateli města. Teď i ty smrdíš jako prase. Umíš Vůbec plavat? <Ano|8|SWIMMING>, <Ne|12|SWIMMING:-1>",
         gain: {itemId: "SMRAD", description:"Smrdíš jako prase.", count: 1}
     },
 

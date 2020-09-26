@@ -21,6 +21,8 @@ html {
   -------------------------------------------------- */
   /* Not required for template or sticky footer method. */
   
+  .top-buffer { margin-top:20px; }
+
   .container {
     width: auto;
     max-width: 680px;
