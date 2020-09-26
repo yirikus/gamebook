@@ -3,7 +3,10 @@ var game = {
     status: null
 }
 
-const main = () => {   
+const version = "26.9.2020, 17:33 (v4 - with style!)";
+
+const main = () => {  
+    writeElement("version", version) 
     testStory(STORY_1);  
     startGame(STORY_1);    
     gotoPage("1");
@@ -44,7 +47,6 @@ const gotoPage = (pageId) => {
     status.page = pageId;   
     renderPage(pageId);
     gainItems(pageId);
-    document.write("<hr/>");
     renderInventory(game.status.inventory);   
 }
 
@@ -80,31 +82,37 @@ const addItem = (itemToAdd) => {
     }
 }
 
+/**
+ * Writes given string value to an element with given id
+ */
+const writeElement = (elementId, value) => {
+    document.getElementById(elementId).innerHTML = value;    
+}
+
 const renderPage = (pageId) => {   
     console.log("rendering " + pageId);
-    document.write("<h1>");
-    document.write("#" + pageId);
-    document.write("</h1>");
-    document.write("<div>");
-    document.write(expandText(game.activeStory[pageId].text));
-    document.write("</div>");    
+    writeElement("pageId", "#" + pageId);
+    let text = expandText(game.activeStory[pageId].text);
+    writeElement("page", text);
 }
 
 const renderInventory = (inventory) => {
-    document.write("<ul>");
+    let text = "<ul>";
     for (let i = 0; i < inventory.length; i++) {
-        renderItem(inventory[i]);
+        text += renderItem(inventory[i]);
     }  
-    document.write("</ul>");
+    text += "</ul>";
+    writeElement("character", text);
 }
 
 const renderItem = (item) => {
-    document.write("<li>");
-        document.write(item.description)
+    let itemText = "<li>";
+        itemText += item.description;
         if (item.count && item.count > 1) {
-            document.write("(" + item.count + ")");
+            itemText += "(" + item.count + ")";
         }
-        document.write("</li>");
+        itemText += "</li>";
+        return itemText;
 }
 
 /**
