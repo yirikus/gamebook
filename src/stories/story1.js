@@ -12,7 +12,7 @@ const STORY_1 = {
         text: "Upřeně hledíš před sebe a stráže si nevšímáš. Jdeš kupředu. Vidíš jak koutkem oka mijíš stráž. Po čele ti stéká kapička potu. Ale, <vypadá to, že to vyjde!|9>"
     },
     "5": {
-        text: "Přijdeš ke stráži a mile se na něj usměješ. Nenápadně mu strčíš zlaťáky do ruky. Kolik mu dáš? <Jeden zlaťák|9|MONEY:1>, <Pět zlaťáků|23|MONEY:1>, <Deset zlaťáků|24|MONEY:1>"
+        text: "Přijdeš ke stráži a mile se na něj usměješ. Nenápadně mu strčíš zlaťáky do ruky. Kolik mu dáš? <Jeden zlaťák|9|MONEY:1>, <Pět zlaťáků|23|MONEY:5>, <Deset zlaťáků|24|MONEY:10>"
     },
 
     "6": {

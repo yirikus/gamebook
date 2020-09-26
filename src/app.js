@@ -70,6 +70,7 @@ const addItem = (itemToAdd) => {
     if (found) {
         found.count += itemToAdd.count; 
         if (found.count <= 0) {
+            //remove from inventory
             inv.splice(inv.indexOf(found),1);
         }
     } else if (itemToAdd.count > 0) {
@@ -194,7 +195,7 @@ const startGame = (story) => {
         page : 0,
         inventory: [
             {itemId:"SWIMMING", description: "Plavání", count: 1},
-            {itemId:"GOLD", description: "Měšec", count:5}
+            {itemId:"MONEY", description: "Měšec", count:5}
         ]
     };
 };
