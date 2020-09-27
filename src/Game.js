@@ -2,6 +2,10 @@ class Game{
     constructor(story) {
         this._story = story;
         this._page = 0;
+        this._enemy = {
+            life : 0,
+            abilityCounter: 0,            
+        }
         this._inventory = new Inventory(story.startItems);          
         this._character = new Character(story.basicAbilities);
         this._statuses = [];                        
@@ -11,6 +15,22 @@ class Game{
 
     shouldFight() {
         return !!this._story[this._page].fight;
+    }
+
+    startFight(){
+        let newEnemy = this._story[this._page].fight;
+
+    }
+
+    endFight() {
+
+    }
+
+    attack(abilityId) {
+        let ability = this._character.useAbility(abilityId);
+        let enemyAbility = this._enemy.useAbility();
+        //apply ability effect
+        // attack with enemy
     }
     
     getPageText(pageId) {

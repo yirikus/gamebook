@@ -48,6 +48,7 @@ const gotoPage = (pageId) => {
 const renderFight = (pageId) => {
     if (game.shouldFight(pageId)){
         document.getElementById("fight").className = '';
+        
     } else {
         document.getElementById("fight").className = 'hidden';
     }

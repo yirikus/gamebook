@@ -6,8 +6,8 @@ const STORY_1 = {
     ],  
     "basicAbilities": [
         {id:"PUNCH", description: "Rána pěstí", damage:1 },
-        {id:"PREPARE", description: "Příprava", damageMultiplier:2, time:1 },
-        {id:"DEFEND", description: "Obrana", damageReduction: 2, cooldown:1 },
+        {id:"PREPARE", description: "Příprava", buff: {buffType:'damageMultiplier', value:1, duration:1 }},
+        {id:"DEFEND", description: "Obrana", buff: { buffType:'damageReduction', value: 2, duration:1 },  cooldown:2 },
     ],
     
     "enemies": {
