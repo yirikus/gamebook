@@ -42,6 +42,16 @@ const gotoPage = (pageId) => {
     renderPage(pageId);    
     game.gotoPage(pageId)    
     renderInventory(game.getInventory().getItems());   
+    renderFight(pageId);
+}
+
+const renderFight = (pageId) => {
+    if (game.shouldFight(pageId)){
+        document.getElementById("fight").className = '';
+    } else {
+        document.getElementById("fight").className = 'hidden';
+    }
+    
 }
 
 /**

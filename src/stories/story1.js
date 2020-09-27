@@ -2,8 +2,23 @@ const STORY_1 = {
     "title": "Město za branou",
     "startItems": [
         {itemId:"SWIMMING", description: "Plavání", count: 1},
-        {itemId:"MONEY", description: "Měšec", count:5}
-    ],    
+        {itemId:"MONEY", description: "Měšec", count:5},        
+    ],  
+    "basicAbilities": [
+        {id:"PUNCH", description: "Rána pěstí", damage:1 },
+        {id:"PREPARE", description: "Příprava", damageMultiplier:2, time:1 },
+        {id:"DEFEND", description: "Obrana", damageReduction: 2, cooldown:1 },
+    ],
+    
+    "enemies": {
+        "KRYSA": {
+            life: 2,
+            abilities: [
+                {id:"BITE", success: "Krysa tě pokousala!", damage:1 },
+                {id:"EVADE", success: "Krysa zmateně pobíhá a nejde jí trefit", damageReduction:100 },
+            ]
+        }
+    },
 
     "1" : {
         text : "Stojíš před branou města. Okolo města je příkop, přes který vede most přímo k hlavní bráně. Půjdeš <po mostě|3>, nebo zkusíš <přeplavat příkop|2>, nebo zkusíš <přelézt zeď po laně|26|ROPE>?"
@@ -27,8 +42,8 @@ const STORY_1 = {
     },
 
     "8": {
-        text: "Přeplaveš příkop a úspěšně se vyškrábeš do kanalizace. Východ není daleko, ale čeká na tebe další překážka... z temných koutů kanalizace se na tebe vrhá... KRYSA! Bojuj! Porazil jsi krysu? <ANO|16>, <NE|17>",
-        fight: "1/3"
+        text: "Přeplaveš příkop a úspěšně se vyškrábeš do kanalizace. Východ není daleko, ale čeká na tebe další překážka... z temných koutů kanalizace se na tebe vrhá... KRYSA! Bojuj!",
+        fight: {id:"KRYSA", win: 16, lose:17}
     },
 
     "9": {

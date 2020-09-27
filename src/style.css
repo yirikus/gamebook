@@ -19,13 +19,13 @@ html {
   
   /* Custom page CSS
   -------------------------------------------------- */
-  /* Not required for template or sticky footer method. */
-  
-  .top-buffer { margin-top:20px; }
 
-  .container {
+  
+.top-buffer { margin-top:20px; }
+.hidden {display: none}
+ .container {
     width: auto;
     max-width: 680px;
     padding: 0 15px;
-  }
+}
   

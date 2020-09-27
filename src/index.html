@@ -6,6 +6,7 @@
         <script src="stories/story1.js"></script>
         <script src="stories/dummyStory.js"></script>
         <script src="Game.js"></script>
+        <script src="Character.js"></script>
         <script src="Inventory.js"></script>
         <script src="parser.js"></script>
         <script src="storyValidation.js"></script>
@@ -19,8 +20,32 @@
         <div class= container>
             <h1 id="storyTitle"></h1>
             <div id="availableStories"></div>
-            <h2 id="pageId"></h1>
+            <h2 id="pageId"></h2>
             <div id="page"></div>
+
+            <div class="hidden" id="fight">
+            <div class="alert alert-primary top-buffer" role="alert">
+                <h4 class="alert-heading text-center">Bojuješ s krysou!</h4>
+                <div class="row">
+                    <div class="col-sm alert alert-primary text-right">
+                        Ty: 10
+                    </div>
+                    <div class="col-sm text-center">
+                        <h1>VS</h1>
+                    </div>
+                    <div class="col-sm alert alert-primary">
+                        Krysa: 10
+                    </div>
+                </div>
+                <div class="row">Krysa útočí!</div>
+                <div class="row">
+                    <div class="col-sm"><a href="#">schopnost 1</a></div>
+                    <div class="col-sm"><a href="#">schopnost 2</a></div>
+                    <div class="col-sm"><a href="#">schopnost 3</a></div>
+                </div>
+            </div>
+            </div>
+
             <div class="alert alert-secondary top-buffer" role="alert">
                 <h4 class="alert-heading">Předměty a schopnosti:</h4>
                 <div id="character"></div>

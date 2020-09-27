@@ -3,10 +3,15 @@ class Game{
         this._story = story;
         this._page = 0;
         this._inventory = new Inventory(story.startItems);          
+        this._character = new Character(story.basicAbilities);
         this._statuses = [];                        
     }
 
     getInventory() { return this._inventory }
+
+    shouldFight() {
+        return !!this._story[this._page].fight;
+    }
     
     getPageText(pageId) {
         const mergeOptionalText = (text) => {
@@ -57,7 +62,7 @@ class Game{
 
     gotoPage(pageId) {
         this._page = pageId; 
-        this.gainItems(pageId);
+        this.gainItems(pageId);      
     }
 
     addStatus(statusId) {
