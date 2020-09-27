@@ -11,21 +11,36 @@ class Game{
     getPageText(pageId) {
         const mergeOptionalText = (text) => {
             let optionalText = text.match(/{([^}]*)}/g);
+            let options = [];
             if (!optionalText) {
-                return text;    
+                return {text:text};    
             }
             for (let i = 0; i<optionalText.length; i++) {
                 let query = parser.parseQuery(optionalText[i]);
                 if (this.hasStatus(query.id) && query.count != '-1' || 
                     !this.hasStatus(query.id) && query.count == '-1') {                        
-                    text = text.replace(optionalText[i], this._story[pageId + '.' + optionalText[i].replace(/{(.*)}/,"$1")].text);  
+                    let pagePart = this._story[pageId + '.' + optionalText[i].replace(/{(.*)}/,"$1").trim()];
+                    text = text.replace(optionalText[i], pagePart.text);
+                    if (pagePart.options) {
+                        options = options.concat(pagePart.options);
+                    }  
                 } else {
                     text = text.replace(optionalText[i],'');   
-                }
-            }
-            return text;
+                }                
+            }            
+            return {text:text, options:options};
         }
-        return mergeOptionalText(this._story[pageId].text);
+        const concatOptions = (options, page) => {
+            if (page.options) {
+                return options.concat(page.options);            
+            }
+            return options;
+        }
+        let page = this._story[pageId];
+        let mergedPage = mergeOptionalText(page.text);  
+        let options = concatOptions(concatOptions([], page), mergedPage);           
+        
+        return mergedPage.text + ' ' + options.join(', ');
     }
 
     gainItems = (pageId) => {

@@ -5,7 +5,7 @@ const STORIES = [
     STORY_1
 ];
 
-const version = "26.9.2020, 17:33 (v4 - with style!)";
+const version = "27.9.2020, 15:45 (v5 - conditional page parts!)";
 
 const main = () => {  
     writeElement("version", version);

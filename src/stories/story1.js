@@ -75,7 +75,7 @@ const STORY_1 = {
 
     "27": {
         text: "Vešel jsi do hospody. {ZENAPRYC:-1} Za barem stojí mohutný vousatý barman, a leští sklenice. Také na tebe podezřívavě hledí.",
-        options: ["<Jít za barmanem|28>", "<vrátit se|10>."]      
+        options: ["<Jít za barmanem|28>", "<vrátit se|10>"]      
     },
 
     "27.ZENAPRYC:-1": {
@@ -88,16 +88,15 @@ const STORY_1 = {
     },
 
     "29": {
-        text: "Jdeš za ženou, Tváří se hrozně znuděně. {SMRAD|DEFAULT}",      
+        text: "Jdeš za ženou, tváří se hrozně znuděně. {SMRAD}{SMRAD:-1}",      
     },
 
     "29.SMRAD": {
         text: "Už se chystala něco říct, ale jakmile ses přiblížil nakrčila nos a se znechuceným výrazem odešla. <Vyber si něco jiného|27>",
         gainStatus: {statusId: "ZENAPRYC"}
     },
-    "29.DEFAULT": {
+    "29.SMRAD:-1": {
         text: "Ale jakmile ses přiblížil, usmála se a jedním okem na tebe mrkla."
-
     },
 
 
