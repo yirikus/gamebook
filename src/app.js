@@ -42,29 +42,71 @@ const gotoPage = (pageId) => {
     renderPage(pageId);    
     game.gotoPage(pageId)    
     renderInventory(game.getInventory().getItems());   
-    renderFight(pageId);
+    renderFight();
 }
 
-const renderFight = (pageId) => {
-    if (game.shouldFight(pageId)){
+const renderFight = () => {
+    if (game.shouldFight()){
+        game.startFight();
         document.getElementById("fight").className = '';
-        
+        let fightInfo = game.getFightInfo();
+        writeElement("fightTitle", fightInfo.title);
+        writeElement("enemyName", fightInfo.enemyName);
+        writeElement("playerLife", fightInfo.playerLife);
+        writeElement("enemyLife", fightInfo.enemyLife);
+        writeElement("fightRounds", '');
+        renderAbilities(fightInfo.abilities);        
     } else {
         document.getElementById("fight").className = 'hidden';
+    }    
+}
+
+const renderAbilities = (abilities) => {
+    let text = '';
+    let template = '<div class="col-sm"><a href="#" onClick="useAbility(\'{abilityId}\')">{label}</a></div>';
+    for (let i = 0; i < abilities.length; i++) {
+        text += template
+            .replace('{abilityId}', abilities[i].id)
+            .replace('{label}', abilities[i].label);
     }
-    
+    writeElement("playerAbilities", text);
+}
+
+const useAbility = (abilityId) => {
+    let fightResult = game.attack(abilityId);
+    let fightInfo = game.getFightInfo();
+    writeElement("playerLife", fightInfo.playerLife);
+    writeElement("enemyLife", fightInfo.enemyLife);
+    writeElement("fightRounds", '<div class="row">' + fightResult.playerAbility + '</div>', true);
+    writeElement("fightRounds", '<div class="row">' + fightResult.enemyAbility + '</div>', true);
+    if (fightInfo.playerWon) {
+        writeFightResult('success', fightInfo.playerWon);
+    } else if (fightInfo.enemyWon) {
+        writeFightResult('danger', fightInfo.enemyWon);  
+    }
+}
+
+const writeFightResult = (alertType, text) =>{
+    writeElement("fightRounds", '<div class="alert alert-' + alertType + '" role="alert">'
+            + expandText(text)
+            + '</div>', true);
+        writeElement("playerAbilities", '');
 }
 
 /**
  * Writes given string value to an element with given id
  */
-const writeElement = (elementId, value) => {
+const writeElement = (elementId, value, append) => {
     let element = document.getElementById(elementId);
     if (!element) {
         console.error('cannot write element, [' + elementId + '] does not exist!');
         return;
     }
-    element.innerHTML = value;    
+    if (append) {
+        element.innerHTML += value;
+    } else {
+        element.innerHTML = value;    
+    }
 }
 
 const renderPage = (pageId) => {   

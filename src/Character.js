@@ -1,9 +1,17 @@
 class Character {
-    constructor(abilities){
+    constructor(abilities, maxLife){
         this._abilities = abilities || [];
-        this._maxLife = 10;
-        this._life = 10;
+        this._maxLife = maxLife;
+        this._life = maxLife;
         this._buffs = [];
+    }
+
+    setLifeToMax(){
+        this._life = this._maxLife;
+    }
+
+    getLife(){
+        return this._life;
     }
 
     getAbilities(){
@@ -11,7 +19,12 @@ class Character {
     }
 
     getAbility(abilityId) {
-        return this._abilities[abilityId];
+        for (let i = 0; i < this._abilities.length; i++) {
+            if (this._abilities[i].id === abilityId) {
+                return this._abilities[i];
+            }
+        }
+        throw 'Ability ' + abilityId + ' not found in list!';
     }
 
     getBuff(buffType) {
@@ -41,14 +54,22 @@ class Character {
         //apply damage buffs
         let damageMultiplier = 1 + this.getBuff('damageMultiplier');
         //return damage
-        return (ability.damage || 0) * damageMultiplier;
+        return {
+            damage: (ability.damage || 0) * damageMultiplier,
+            description: ability.description
+        };
     }
 
-    receiveAttack(ability) {
+    receiveAttack(damage) {
         // apply damage reduction
-        if (ability.damage) {
-            this.getBuff
+        if (damage) {
+            let damageReduction = this.getBuff('damageReduction');
+            let totalDamage = Math.max(damage - damageReduction, 0);
+            this._life -= totalDamage;
+            return totalDamage;
         }
+        
+        return 0;
     }
 
     clearBuffs() {

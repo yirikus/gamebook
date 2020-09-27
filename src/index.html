@@ -7,6 +7,7 @@
         <script src="stories/dummyStory.js"></script>
         <script src="Game.js"></script>
         <script src="Character.js"></script>
+        <script src="Enemy.js"></script>
         <script src="Inventory.js"></script>
         <script src="parser.js"></script>
         <script src="storyValidation.js"></script>
@@ -25,20 +26,23 @@
 
             <div class="hidden" id="fight">
             <div class="alert alert-primary top-buffer" role="alert">
-                <h4 class="alert-heading text-center">Bojuješ s krysou!</h4>
+                <h4 class="alert-heading text-center" id="fightTitle">Bojuješ s krysou!</h4>
                 <div class="row">
                     <div class="col-sm alert alert-primary text-right">
-                        Ty: 10
+                        Ty: <span id="playerLife">10</span>
                     </div>
                     <div class="col-sm text-center">
                         <h1>VS</h1>
                     </div>
                     <div class="col-sm alert alert-primary">
-                        Krysa: 10
+                        <span id="enemyName">Krysa</span>: <span id="enemyLife">10</span>
                     </div>
                 </div>
-                <div class="row">Krysa útočí!</div>
-                <div class="row">
+                <div id="fightRounds">
+                        <div class="row">Krysa útočí!</div>
+                </div>
+                
+                <div class="row" id="playerAbilities">
                     <div class="col-sm"><a href="#">schopnost 1</a></div>
                     <div class="col-sm"><a href="#">schopnost 2</a></div>
                     <div class="col-sm"><a href="#">schopnost 3</a></div>

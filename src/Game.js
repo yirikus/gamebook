@@ -7,7 +7,7 @@ class Game{
             abilityCounter: 0,            
         }
         this._inventory = new Inventory(story.startItems);          
-        this._character = new Character(story.basicAbilities);
+        this._character = new Character(story.basicAbilities, 10);
         this._statuses = [];                        
     }
 
@@ -17,20 +17,39 @@ class Game{
         return !!this._story[this._page].fight;
     }
 
-    startFight(){
-        let newEnemy = this._story[this._page].fight;
+    getFightInfo() {
+        let fight = this._story[this._page].fight;
+        return {
+            title: fight.title,
+            enemyName: this._enemy.getName(),
+            playerLife: this._character.getLife(),
+            enemyLife: this._enemy.getCharacter().getLife(),
+            abilities: this._character.getAbilities(),
+            playerWon: this._enemy.getCharacter().getLife() <= 0 ? fight.win : undefined,
+            enemyWon: this._character.getLife() <= 0 ? fight.lose : undefined
+        }
+    }
 
+    startFight(){
+        let pageEnemy = this._story[this._page].fight.id;
+        this._enemy = new Enemy(this._story.enemies[pageEnemy]);
+        this._character.setLifeToMax();
     }
 
     endFight() {
-
+        this._character.clearBuffs();
     }
 
     attack(abilityId) {
-        let ability = this._character.useAbility(abilityId);
+        let playerAbility = this._character.useAbility(abilityId);
         let enemyAbility = this._enemy.useAbility();
-        //apply ability effect
-        // attack with enemy
+        let enemyReceived = this._enemy.getCharacter().receiveAttack(playerAbility.damage);
+        let playerReceived = this._character.receiveAttack(enemyAbility.damage);
+        
+        return {
+            playerAbility: playerAbility.description + ' Uštědřil jsi ' + enemyReceived + ' zranění!',
+            enemyAbility: enemyAbility.description + ' Byl jsi zraněn za ' + playerReceived + ' body!'
+        };
     }
     
     getPageText(pageId) {

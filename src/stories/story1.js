@@ -5,17 +5,20 @@ const STORY_1 = {
         {itemId:"MONEY", description: "Měšec", count:5},        
     ],  
     "basicAbilities": [
-        {id:"PUNCH", description: "Rána pěstí", damage:1 },
-        {id:"PREPARE", description: "Příprava", buff: {buffType:'damageMultiplier', value:1, duration:1 }},
-        {id:"DEFEND", description: "Obrana", buff: { buffType:'damageReduction', value: 2, duration:1 },  cooldown:2 },
+        {id:"PUNCH", label:'Rána pěstí', description: "Útočíš pěstí!", damage:1 },
+        {id:"PREPARE", label:'Příprava', description: "Připravuješ se na další útok", 
+            buff: {buffType:'damageMultiplier', value:1, duration:1 }},
+        {id:"DEFEND",label:'Obrana', description: "Bráníš se", 
+            buff: { buffType:'damageReduction', value: 2, duration:1 },  cooldown:2 },
     ],
     
     "enemies": {
         "KRYSA": {
+            name: 'Přerostlá krysa',
             life: 2,
             abilities: [
-                {id:"BITE", success: "Krysa tě pokousala!", damage:1 },
-                {id:"EVADE", success: "Krysa zmateně pobíhá a nejde jí trefit", damageReduction:100 },
+                {id:"BITE", description: "Krysa tě pokousala!", damage:1 },
+                {id:"EVADE", description: "Krysa zmateně pobíhá a nejde jí trefit", damageReduction:100 },
             ]
         }
     },
@@ -43,7 +46,12 @@ const STORY_1 = {
 
     "8": {
         text: "Přeplaveš příkop a úspěšně se vyškrábeš do kanalizace. Východ není daleko, ale čeká na tebe další překážka... z temných koutů kanalizace se na tebe vrhá... KRYSA! Bojuj!",
-        fight: {id:"KRYSA", win: 16, lose:17}
+        fight: {
+            title:'Bojuješ s krysou!', 
+            id:"KRYSA", 
+            win: '<Porazil jsi tuto mocnou krysu!|16>', 
+            lose:'<Krysa tě bohužel vážně pokousala|17>'
+        }
     },
 
     "9": {
@@ -62,6 +70,11 @@ const STORY_1 = {
     //TODO
     "16": {
         text: "Úspěšně jsi pronikl do města! Kam půjdeš teď? <Do hostince|27>"
+    },
+
+    "17": {
+        text: "Umíráš pomalou smrtí na mnohačetná krysí kousance a infekci. Tvé dobrodružství zde končí.",
+        end: true
     },
 
     "22": {

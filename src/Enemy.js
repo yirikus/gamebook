@@ -1,18 +1,29 @@
+/**
+ * Enemy is a character with attack pattern 
+ * */
 class Enemy{
-    constructor(pageEnemy){
-        this._life = pageEnemy.life;
-        this._maxLife = pageEnemy.life;
-        this._abilities = pageEnemy.abilities;
+    constructor(pageFight){
+        this._character = new Character(pageFight.abilities, pageFight.life);
         this._abilityCounter = 0;
+        this._name = pageFight.name;        
     }
 
-    fight(characterAbility) {
+    getName(){
+        return this._name;
+    }
 
+    getCharacter(){
+        return this._character;
+    }
+
+    useAbility() {
+        return this.getCharacter().useAbility(this.chooseAbility());
     }
 
     chooseAbility(){
-        let ability = this._abilities[_abilityCounter % this._abilities.length];
+        let abilities = this.getCharacter().getAbilities();
+        let ability = abilities[this._abilityCounter % abilities.length];
         this._abilityCounter++;
-        return ability;
+        return ability.id;
     }
 }
