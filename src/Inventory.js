@@ -13,7 +13,7 @@ class Inventory {
         let inv = this.getItems();
         let found = this.findItem(itemToAdd.itemId);
         if (found) {
-            found.count += itemToAdd.count; 
+            found.count += (itemToAdd.count || 1);
             if (found.count <= 0) {
                 //remove from inventory
                 inv.splice(inv.indexOf(found),1);

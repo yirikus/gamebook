@@ -5,11 +5,11 @@ const STORY_1 = {
         {itemId:"MONEY", description: "Měšec", count:5},        
     ],  
     "basicAbilities": [
-        {id:"PUNCH", label:'Rána pěstí', description: "Útočíš pěstí!", damage:1 },
-        {id:"PREPARE", label:'Příprava', description: "Připravuješ se na další útok", 
-            buff: {buffType:'damageMultiplier', value:1, duration:1 }},
-        {id:"DEFEND",label:'Obrana', description: "Bráníš se", 
-            buff: { buffType:'damageReduction', value: 2, duration:1 },  cooldown:2 },
+        Ability("PUNCH", "Rána pěstí", "Útočíš pěstí!", 1),
+        Ability("PREPARE", "Příprava", "Připravuješ se na další útok", 0, 1,
+            Buff('damageMultiplier',1, 2)),
+        Ability("DEFEND", "Obrana", "Bráníš se", 0, 2,
+            Buff('damageReduction', 5, 1)),
     ],
     
     "enemies": {
@@ -17,8 +17,19 @@ const STORY_1 = {
             name: 'Přerostlá krysa',
             life: 2,
             abilities: [
-                {id:"BITE", description: "Krysa tě pokousala!", damage:1 },
-                {id:"EVADE", description: "Krysa zmateně pobíhá a nejde jí trefit", damageReduction:100 },
+                Ability("BITE", '','Krysa tě pokousala!', 1),
+                Ability("EVADE", '', "Krysa zmateně pobíhá a nejde jí trefit", 0, 0,
+                    Buff('damageReduction',100, 1)),
+            ]
+        },
+        "GUARD": {
+            name: 'Městská stráž',
+            life: 5,
+            abilities: [
+                Ability("PREPARE", '','Pozor! Stráž se napřahuje k velkému seku', 0,0,
+                    Buff('damageMultiplier',1, 2)),
+                Ability("SLASH",'',"Strážce zaútočil mečem",  2),
+                Ability("SLASH", '',"Strážce zaútočil mečem", 2),
             ]
         }
     },
@@ -41,11 +52,16 @@ const STORY_1 = {
 
     "6": {
         text: "Stráž tvůj útok nečeká, ale jednoduché to mít nebudeš ani tak. Bojuj! Pokud vyhraješ, omráčíš stráž a můžeš <vejít do města|10>, v opačném případě <záleží na náladě strážce|9>",
-        fight: "2/4"
+        fight: {
+            title:'Bojuješ s krysou!',
+            id:"GUARD",
+            win: '<Omráčil jsi strážce|11>',
+            lose:'<Strážce tě přemohl, těď záleží na jeho náladě co s tebou bude|9>'
+        }
     },
 
     "8": {
-        text: "Přeplaveš příkop a úspěšně se vyškrábeš do kanalizace. Východ není daleko, ale čeká na tebe další překážka... z temných koutů kanalizace se na tebe vrhá... KRYSA! Bojuj!",
+        text: "Překonáš příkop a úspěšně se vyškrábeš do kanalizace. Východ není daleko, ale čeká na tebe další překážka... z temných koutů kanalizace se na tebe vrhá... KRYSA! Bojuj!",
         fight: {
             title:'Bojuješ s krysou!', 
             id:"KRYSA", 
@@ -54,6 +70,7 @@ const STORY_1 = {
         }
     },
 
+
     "9": {
         text: "Uslyšíš jak strážce brány zavrčí a citíš jak tě silné ruce chytají za ramena. Uvědomuješ si, že <letíš do příkopu|22>"
     },
@@ -61,13 +78,38 @@ const STORY_1 = {
     // part 2 -start
     "10": {
         text: "Stojíš za hlavní branou. Kam půjdeš teď? <Do hostince|27>"
-    },    
-
-    "12": {
-        text: "Topíš se, hoď si mincí. Pokud <uspěješ|13>, pokud <nikoliv|25>"
     },
 
-    //TODO
+    "11": {
+        text: "Strážce leží bezvládně na zemi. Nic ti nebrání v přístupu do města. Chceš se pojistit a <strážce zabít|18>, <okrást ho|14|GUARDTHEFT:-1>, nebo ho překročit a <pokračovat do města|15>? "
+    },
+
+    "12": {
+        text: "Topíš se, hoď si mincí. Padla <hlava|25>, nebo <orel|13>?"
+    },
+
+    "13": {
+        text: "Podařilo se ti zachytit stromu rostoucího u městských zdí! Neutopíš se! Nedaleko vydíš otvor ve zdi, ze kterého vytákají splašky do příkopu. <Jdi do kanalizace|8>",
+        gain: {itemId: "LUCKY", description: "Máš štěstí!"}
+    },
+
+    "14": {
+        text: "Sebral jsi mu meč, zlaťáky, svačinu a dokonce jsi u něj i našel hanbatý obrázek! <Co dál?|11>",
+        gainStatus: {statusId: "GUARDTHEFT"},
+        gain: [
+            {itemId: "SWORD", description: "Meč", count:1, damage: 2},
+            {itemId: "MONEY", description: "Měšec", count: 10},
+            {itemId: "SANDWICH", description: "Sendvič", count: 1, consumable: {life: 1}},
+            {itemId: "NUDE_PIC", description: "Obrázek nahaté slečny", count: 1},
+        ]
+    },
+
+    "15": {
+        text: "Pospícháš rychle do města, snad si tě strážce nebude pamatovat.",
+        gain: {statusId: "GUARD_KNOCKEDOUT"}
+    },
+
+    //TODO kde usti kanalizace?
     "16": {
         text: "Úspěšně jsi pronikl do města! Kam půjdeš teď? <Do hostince|27>"
     },
@@ -120,8 +162,8 @@ const STORY_1 = {
     },
 
     "29.SMRAD": {
-        text: "Už se chystala něco říct, ale jakmile ses přiblížil nakrčila nos a se znechuceným výrazem odešla. <Vyber si něco jiného|27>",
-        gainStatus: {statusId: "ZENAPRYC"}
+        text: "Už se chystala něco říct, ale jakmile ses přiblížil, nakrčila nos a se znechuceným výrazem odešla. <Vyber si něco jiného|27>",
+        gain: {statusId: "ZENAPRYC"}
     },
     "29.SMRAD:-1": {
         text: "Ale jakmile ses přiblížil, usmála se a jedním okem na tebe mrkla."

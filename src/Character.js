@@ -43,8 +43,8 @@ class Character {
      */
     useAbility(abilityId){
         let ability = this.getAbility(abilityId);
-        if (ability.coolDown) {
-            ability.time = ability.coolDown;
+        if (ability.cooldown) {
+            ability.time = ability.cooldown;
         }
         //activate buff
         if (ability.buff) {
@@ -80,11 +80,11 @@ class Character {
      * Decrements time for buffs. If time reaches 0, buff is removed
      */
     updateBuffs(){
-        var i = this._buffs.length;
+        let i = this._buffs.length;
         while (i--) {
             this._buffs[i].time--;
             if (this._buffs[i].time <= 0) { 
-                this._buffs[i].splice(i, 1);
+                this._buffs.splice(i, 1);
             } 
         }
     }
@@ -92,10 +92,10 @@ class Character {
      * decrements time ability was not used. If time reaches zero, ability can be used again
      */
     updateCooldowns(){
-        var i = this._abilities.length;
+        let i = this._abilities.length;
         while (i--) {
             let ability = this._abilities[i];
-            if (ability.coolDown && ability.time) {
+            if (ability.cooldown && ability.time) {
                 ability.time--;                
             }            
         }

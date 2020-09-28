@@ -5,7 +5,7 @@ const parser = {
      *  NAME:5 -> {id: "NAME", count: 5} count -1 means 'must not have'
      */
     parseQuery : (condition) => {
-        splitted = condition.replace(/{(.*)}/,"$1").split(":");    
+        let splitted = condition.replace(/{(.*)}/,"$1").split(":");
         return {
             id: splitted[0], 
             count: splitted[1],

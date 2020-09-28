@@ -5,7 +5,7 @@ const STORIES = [
     STORY_1
 ];
 
-const version = "27.9.2020, 15:45 (v5 - conditional page parts!)";
+const version = "28.9.2020, 17:11 (v12 - bug fix!)";
 
 const main = () => {  
     writeElement("version", version);
@@ -38,10 +38,10 @@ const chooseStory = (storyTitle) => {
  * Moves player to location with given id and renders it along with inventory
  * @param {*} pageId 
  */
-const gotoPage = (pageId) => {      
-    renderPage(pageId);    
-    game.gotoPage(pageId)    
-    renderInventory(game.getInventory().getItems());   
+const gotoPage = (pageId) => {
+    let pageText = game.gotoPage(pageId)
+    renderPage(pageId, pageText);
+    renderInventory(game.getInventory().getItems());
     renderFight();
 }
 
@@ -109,11 +109,10 @@ const writeElement = (elementId, value, append) => {
     }
 }
 
-const renderPage = (pageId) => {   
+const renderPage = (pageId, pageText) => {
     console.log("rendering " + pageId);
-    writeElement("pageId", "#" + pageId);    
-    let text = expandText(game.getPageText(pageId));    
-    writeElement("page", text);
+    writeElement("pageId", "#" + pageId);
+    writeElement("page", expandText(pageText));
 }
 
 const renderInventory = (inventory) => {

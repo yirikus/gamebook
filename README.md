@@ -93,8 +93,9 @@ This will give player a toothpaste. **itemId** is the most important part as thi
 ### giving removing player statuses
 In a similiar way like items, you can give player a status. The main difference is that these are secret. ie player can do something good or bad and you want to alter story without him knowing:
 ```
-gainStatus: {statusId: "KING_SLAYER"}
+gain: {statusId: "KING_SLAYER"}
 ```
+As you see the only thing that is diffenret is that instead of 'itemId' we used 'statusId'.
 To take it away, you use `count:-1`
 
 ### Conditional text blocks
@@ -106,7 +107,6 @@ Like with navigation you can have conditional text blocks that will display only
 ```
 Conditional text parts are enclosed in `{}` and they will be replaced with a text part with a name like this 'original text part' DOT 'CONDITION'. These text parts can have everything that other text parts can have. Options, gain, end, etc.
 
-
 ### Ending a story
 To mark an end of a story, you simply add end:true and no options.
 ```
@@ -115,4 +115,9 @@ To mark an end of a story, you simply add end:true and no options.
         end: true
     }
 ```
+
+## Adding enemies
+## Adding abilities
+
+# Known bugs
 

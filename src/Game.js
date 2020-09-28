@@ -19,7 +19,7 @@ class Game{
 
     getFightInfo() {
         let fight = this._story[this._page].fight;
-        return {
+        let fightInfo = {
             title: fight.title,
             enemyName: this._enemy.getName(),
             playerLife: this._character.getLife(),
@@ -28,6 +28,11 @@ class Game{
             playerWon: this._enemy.getCharacter().getLife() <= 0 ? fight.win : undefined,
             enemyWon: this._character.getLife() <= 0 ? fight.lose : undefined
         }
+        if (fightInfo.playerWon || fightInfo.enemyWon) {
+            this.endFight();
+        }
+
+        return fightInfo;
     }
 
     startFight(){
@@ -45,67 +50,100 @@ class Game{
         let enemyAbility = this._enemy.useAbility();
         let enemyReceived = this._enemy.getCharacter().receiveAttack(playerAbility.damage);
         let playerReceived = this._character.receiveAttack(enemyAbility.damage);
+        this._enemy.getCharacter().updateTimers();
+        this._character.updateTimers();
         
         return {
             playerAbility: playerAbility.description + ' Uštědřil jsi ' + enemyReceived + ' zranění!',
             enemyAbility: enemyAbility.description + ' Byl jsi zraněn za ' + playerReceived + ' body!'
         };
     }
-    
-    getPageText(pageId) {
-        const mergeOptionalText = (text) => {
-            let optionalText = text.match(/{([^}]*)}/g);
-            let options = [];
-            if (!optionalText) {
-                return {text:text};    
-            }
-            for (let i = 0; i<optionalText.length; i++) {
-                let query = parser.parseQuery(optionalText[i]);
-                if (this.hasStatus(query.id) && query.count != '-1' || 
-                    !this.hasStatus(query.id) && query.count == '-1') {                        
-                    let pagePart = this._story[pageId + '.' + optionalText[i].replace(/{(.*)}/,"$1").trim()];
-                    text = text.replace(optionalText[i], pagePart.text);
-                    if (pagePart.options) {
-                        options = options.concat(pagePart.options);
-                    }  
-                } else {
-                    text = text.replace(optionalText[i],'');   
-                }                
-            }            
-            return {text:text, options:options};
+
+    hasStatusOrItem(query) {
+        let parsedQuery = parser.parseQuery(query);
+        if (parsedQuery.count === '-1') {
+            //both must satisfy query if we are asking for non presence
+            return (this.hasStatus(query) && this.getInventory().hasItem(query));
+        } else {
+            return (this.hasStatus(query) || this.getInventory().hasItem(query));
         }
+    }
+
+    mergePage = (page) => {
+        let optionalText = page.text.match(/{([^}]*)}/g);
+        let options = [];
+        if (!optionalText) {
+            return page;
+        }
+        let text = page.text;
+        let gain = [];
+        if (page.gain) {
+            gain = gain.concat(page.gain);
+        }
+        let fight = page.fight;
+        for (let i = 0; i<optionalText.length; i++) {
+            if (this.hasStatusOrItem(optionalText[i])) {
+                let pagePart = this._story[this._page + '.' + optionalText[i].replace(/{(.*)}/,"$1").trim()];
+                text = text.replace(optionalText[i], pagePart.text);
+                if (pagePart.options) {
+                    options = options.concat(pagePart.options);
+                }
+                if (pagePart.fight) {
+                    fight = pagePart.fight;
+                }
+                if (pagePart.gain) {
+                   gain = gain.concat(pagePart.gain);
+                }
+            } else {
+                text = text.replace(optionalText[i],'');
+            }
+        }
+        return {text, fight, options, gain};
+    }
+    
+    getPageText() {
         const concatOptions = (options, page) => {
             if (page.options) {
                 return options.concat(page.options);            
             }
             return options;
         }
-        let page = this._story[pageId];
-        let mergedPage = mergeOptionalText(page.text);  
+        let page = this._story[this._page];
+        let mergedPage = this.mergePage(page);
         let options = concatOptions(concatOptions([], page), mergedPage);           
         
         return mergedPage.text + ' ' + options.join(', ');
     }
 
-    gainItems = (pageId) => {
-        let gain = this._story[pageId].gain;
+    gainStuff = () => {
+        let gain = this.mergePage(this._story[this._page]).gain;
         if (gain && !Array.isArray(gain)) {
             gain = [gain];
         }
         if (gain) {
-            for (let i = 0; i < gain.length; i++) {              
-                this.getInventory().addItem(gain[i]);
-            } 
+            for (let i = 0; i < gain.length; i++) {
+                if (gain[i].itemId) {
+                    this.getInventory().addItem(gain[i]);
+                }
+                if (gain[i].statusId) {
+                    this.addStatus(gain[i].statusId, gain[i].count);
+                }
+            }
         }
     }    
 
     gotoPage(pageId) {
         this._page = pageId; 
-        this.gainItems(pageId);      
+        this.gainStuff();
+        return this.getPageText();
     }
 
-    addStatus(statusId) {
-        this._statuses.push(statusId);
+    addStatus(statusId, count) {
+        if (count < 0) {
+            this.removeStatus(statusId);
+        } else if (this._statuses.indexOf(statusId) < 0){
+            this._statuses.push(statusId);
+        }
     }
 
     removeStatus(statusId) {        
@@ -115,7 +153,9 @@ class Game{
         }
     }
 
-    hasStatus(statusId) {
-        return this._statuses.indexOf(statusId) > -1;
+    hasStatus(query) {
+        let parsedQuery = parser.parseQuery(query);
+        let found = this._statuses.indexOf(parsedQuery.id) > -1;
+        return found && parsedQuery.count != '-1' || !found && parsedQuery.count == '-1';
     }
 }
