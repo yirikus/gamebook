@@ -3,12 +3,13 @@ Simple gamebook engine.
 You can test it on http://yirikus.cz/x/story/
 
 ## TODO:
-* add character creation
-* fighting system
+* add character creation (gain abilities)
+* consumable items
+* equipment
+* images!
 * continue the sample story!
 * load jsons with stories/characters
 * enable saving using serialization to base64 string (pageId + character)
-* finish conditional text + options in separate attribute
 
 # Documentation
 
