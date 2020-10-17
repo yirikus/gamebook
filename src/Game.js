@@ -100,7 +100,11 @@ class Game{
         }
         return {text, fight, options, gain};
     }
-    
+
+    getImg() {
+        return this._story[this._page].img;
+    }
+
     getPageText() {
         const concatOptions = (options, page) => {
             if (page.options) {
@@ -135,7 +139,7 @@ class Game{
     gotoPage(pageId) {
         this._page = pageId; 
         this.gainStuff();
-        return this.getPageText();
+        return { text: this.getPageText(), img: this.getImg() };
     }
 
     addStatus(statusId, count) {

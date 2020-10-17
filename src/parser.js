@@ -16,12 +16,14 @@ const parser = {
  * Parses target location in <> to an object with label, id and condition
  */
     parseLocation: (text) => {
-        let splitted = text.replace(/<(.*)>/,"$1").split("|");
+        let splitted = text.replace(/\[(.*)\]/,"$1").split("|");
 
         return {
             label: splitted[0],
             id : splitted[1],
             condition : splitted[2],
         };
-    }
+    },
+
+    getExpandableText: (text) => text.match(/\[([^\]]*)\]/g)
 }

@@ -39,8 +39,8 @@ const chooseStory = (storyTitle) => {
  * @param {*} pageId 
  */
 const gotoPage = (pageId) => {
-    let pageText = game.gotoPage(pageId)
-    renderPage(pageId, pageText);
+    let page = game.gotoPage(pageId);
+    renderPage(pageId, page.text, page.img);
     renderInventory(game.getInventory().getItems());
     renderFight();
 }
@@ -109,9 +109,14 @@ const writeElement = (elementId, value, append) => {
     }
 }
 
-const renderPage = (pageId, pageText) => {
+const renderPage = (pageId, pageText, img) => {
     console.log("rendering " + pageId);
     writeElement("pageId", "#" + pageId);
+    if (img) {
+        writeElement("illustration", '<img src="' + img + '">');
+    } else {
+        writeElement("illustration", '');
+    }
     writeElement("page", expandText(pageText));
 }
 
@@ -145,11 +150,11 @@ const pageAnchor = (anchorLabel, pageId, condition) => {
     }
 };
 
-const getExpandableText = (text) => text.match(/<([^>]*)>/g);
+
 
 const expandText = (text) => {
     console.log("expanding: " + text);    
-    let toExpand = getExpandableText(text);
+    let toExpand = parser.getExpandableText(text);
     var replaced = text;  
     if (toExpand) {        
         for (let i = 0; i < toExpand.length; i++) {
@@ -160,11 +165,8 @@ const expandText = (text) => {
     return replaced;
 }
 
-
-
-
 const getLocations = (text) => {
-    let toExpand = getExpandableText(text);  
+    let toExpand = parser.getExpandableText(text);
     let locations = [];
     if (toExpand) {        
         for (let i = 0; i < toExpand.length; i++) {
