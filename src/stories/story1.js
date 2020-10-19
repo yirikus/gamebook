@@ -103,18 +103,18 @@ const STORY_1 = {
 
     "14": {
         text: "Sebral jsi mu meč, zlaťáky, svačinu a dokonce jsi u něj i našel hanbatý obrázek! [Co dál?|11]",
-        gainStatus: {statusId: "GUARDTHEFT"},
         gain: [
             {itemId: "SWORD", description: "Meč", count:1, damage: 2},
             {itemId: "MONEY", description: "Měšec", count: 10},
             {itemId: "SANDWICH", description: "Sendvič", count: 1, consumable: {life: 1}},
             {itemId: "NUDE_PIC", description: "Obrázek nahaté slečny", count: 1},
+            {itemId: "GUARDTHEFT", type: 'STATUS'},
         ]
     },
 
     "15": {
         text: "Pospícháš rychle do města, snad si tě strážce nebude pamatovat.",
-        gain: {statusId: "GUARD_KNOCKEDOUT"}
+        gain: {itemId: "GUARD_KNOCKEDOUT", type: 'STATUS'}
     },
 
     //TODO kde usti kanalizace?
@@ -171,7 +171,7 @@ const STORY_1 = {
 
     "29.SMRAD": {
         text: "Už se chystala něco říct, ale jakmile ses přiblížil, nakrčila nos a se znechuceným výrazem odešla. [Vyber si něco jiného|27]",
-        gain: {statusId: "ZENAPRYC"}
+        gain: {itemId: "ZENAPRYC", type: 'STATUS'}
     },
     "29.SMRAD:-1": {
         text: "Ale jakmile ses přiblížil, usmála se a jedním okem na tebe mrkla."

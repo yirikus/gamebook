@@ -61,12 +61,7 @@ class Game{
 
     hasStatusOrItem(query) {
         let parsedQuery = parser.parseQuery(query);
-        if (parsedQuery.count === '-1') {
-            //both must satisfy query if we are asking for non presence
-            return (this.hasStatus(query) && this.getInventory().hasItem(query));
-        } else {
-            return (this.hasStatus(query) || this.getInventory().hasItem(query));
-        }
+        return this.getInventory().hasItem(query);
     }
 
     mergePage = (page) => {
@@ -129,9 +124,6 @@ class Game{
                 if (gain[i].itemId) {
                     this.getInventory().addItem(gain[i]);
                 }
-                if (gain[i].statusId) {
-                    this.addStatus(gain[i].statusId, gain[i].count);
-                }
             }
         }
     }    
@@ -140,26 +132,5 @@ class Game{
         this._page = pageId; 
         this.gainStuff();
         return { text: this.getPageText(), img: this.getImg() };
-    }
-
-    addStatus(statusId, count) {
-        if (count < 0) {
-            this.removeStatus(statusId);
-        } else if (this._statuses.indexOf(statusId) < 0){
-            this._statuses.push(statusId);
-        }
-    }
-
-    removeStatus(statusId) {        
-        const index = this._statuses.indexOf(statusId);
-        if (index > -1) {
-            this._statuses.splice(index, 1);
-        }
-    }
-
-    hasStatus(query) {
-        let parsedQuery = parser.parseQuery(query);
-        let found = this._statuses.indexOf(parsedQuery.id) > -1;
-        return found && parsedQuery.count != '-1' || !found && parsedQuery.count == '-1';
     }
 }

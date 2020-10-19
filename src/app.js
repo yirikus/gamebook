@@ -1,8 +1,13 @@
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+});
+
 var game = {};
 
 const STORIES = [
     DUMMY_STORY,
-    STORY_1
+    STORY_1,
+    HAFAAR,
 ];
 
 const version = "28.9.2020, 17:11 (v12 - bug fix!)";
@@ -113,7 +118,7 @@ const renderPage = (pageId, pageText, img) => {
     console.log("rendering " + pageId);
     writeElement("pageId", "#" + pageId);
     if (img) {
-        writeElement("illustration", '<img src="' + img + '">');
+        writeElement("illustration", '<img src="' + img + '"/>');
     } else {
         writeElement("illustration", '');
     }

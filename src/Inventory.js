@@ -3,14 +3,18 @@ class Inventory {
         this._items = itemArray || itemArray;        
       }
 
-      getItems() { return this._items }
+    /**
+     * Returns visible items, not statuses!
+     * @returns {*}
+     */
+      getItems() { return this._items.filter(a => a.type !== 'STATUS'); }
 
     /**
      * Adds copy of given item to inventory
      * @param {*} itemToAdd 
      */
     addItem(itemToAdd){
-        let inv = this.getItems();
+        let inv = this._items;
         let found = this.findItem(itemToAdd.itemId);
         if (found) {
             found.count += (itemToAdd.count || 1);
@@ -32,8 +36,9 @@ class Inventory {
     hasItem(query) {
         let item = parser.parseQuery(query);
         let found = this.findItem(item.id) 
-        return (found && (!item.count || (item.count > 0 && found.count >= item.count))) 
-            || (!found && item.count < 0);
+        return (found && ((item.count > 0 && found.count >= item.count)))
+            || (!found && item.count < 0)
+            || (found && item.count < 0 && found.count < Math.abs(item.count));
     }
 
     /**
@@ -41,7 +46,7 @@ class Inventory {
      * @param {} itemId 
      */
     findItem(itemId){
-        let inv = this.getItems();
+        let inv = this._items;
         for (let i = 0; i < inv.length; i++) {
             if (inv[i].itemId === itemId ) {
                 return inv[i];

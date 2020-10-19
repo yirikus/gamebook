@@ -94,7 +94,7 @@ This will give player a toothpaste. **itemId** is the most important part as thi
 ### giving removing player statuses
 In a similiar way like items, you can give player a status. The main difference is that these are secret. ie player can do something good or bad and you want to alter story without him knowing:
 ```
-gain: {statusId: "KING_SLAYER"}
+gain: {itemId: 'KING_SLAYER', type: 'STATUS'}
 ```
 As you see the only thing that is diffenret is that instead of 'itemId' we used 'statusId'.
 To take it away, you use `count:-1`
