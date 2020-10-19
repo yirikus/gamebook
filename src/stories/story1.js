@@ -73,7 +73,7 @@ const STORY_1 = {
         fight: {
             title:'Bojuješ s krysou!', 
             id:"KRYSA", 
-            win: '[Porazil jsi tuto mocnou krysu!|16]', 
+            win: '[Porazil jsi tuto mocnou krysu!|18]',
             lose:'[Krysa tě bohužel vážně pokousala|17]'
         }
     },
@@ -127,6 +127,70 @@ const STORY_1 = {
         end: true
     },
 
+    "18": {
+        text: "Stoupáš tunelem vzhůru, dokud se nezačne větvit. Vypadá to, že město má poměrně vyspělý systém kanalizace. " +
+            "Ve stropě vidíš zašpiněné otvory, pod kterými se nachází nevábně vypadající hromádky. " +
+            "Splašky jsou zřejmě dál odváděny do příkopu a do moře? Cesta se větví třemi směry. " +
+            "[Kudy dál?|40]"
+    },
+
+    "19": {
+        text: "Brodíš se smradlavou vodou asi 40 minut. Míjíš několik tunelů vedoucích ven z města a do města. " +
+            "Na konci cesty je mříž, kterou nemáš šanci překonat. Chceš se [ponořit do splašků|30] a zjistit " +
+            "jestli nelze mříž podplavat. Nebo chceš jít tunelem [na jih |20], případně [na východ, směrem do města|21])?"
+    },
+
+    "20": {
+        text: "Brodíš se smradlavou vodou asi 20 minut. Míjíš několik tunelů vedoucích ven z města a do města. " +
+            "Nakonec dojdeš až k díře, kterou vytékají splašky do moře. Jsi asi 2 metry nad mořem, není problém seskočit " +
+            "dolů do moře a [doplavat do příkopu|49|SWIMMING], případně se můžeš vrátit a jít [chodbou dál na sever|19], " +
+            "nebo jít jednou z mnoha chodeb [na východ, směrem do města|21]"
+    },
+
+
+    "21": {
+        text: "{SHITFELL:-1} Stoupáš vzhůru. Ze smradu se ti dělá zle. [Chceš to vzdát?|40] Nebo [pokračovat dál|31]"
+    },
+
+    "21.SHITFELL:-1": {
+        text: "*ŠPLOUCH*. Těsně vedle tebe přistály sračky. Blergh. ",
+        gain: {itemId: 'SHITFELL', type:'STATUS', count: 1}
+    },
+
+    "30": {
+        text: "Fuj. No Tak ale to byl fakt debilní nápad. Ne nejde. Je to pevná železná mříž. proleze tím leda tak myš. Zkus něco jiného.<br/>" +
+            "Chceš jít tunelem [na jih |20], nebo [na východ, směrem do města|21])?"
+    },
+
+    "31": {
+        text: "Dokázal jsi to! Prolezl jsi kanalizací a vyškrábal se ven na světlo. Stojíš na náměstí u stěný v kruhové " +
+            "nádrži plné hoven a nadšeně řveš 'JO! JSEM PÁN KANÁLU! DOKÁZAL JSEM TO!'. Ruch na náměstí ustal a všichni " +
+            "sledující špinavého smradlavého křičejícího člověka, který právě vylezl z kanálu. [Co teď?|32]",
+        gain: {itemId: 'SEWERKING', description:'Jsi král kanalizace', count: 1}
+    },
+
+    "32": {
+        text: "Na náměstí můžeš dělat spoustu věcí!"
+    },
+
+    "40": {
+        text: "Tunel se oběma směry stáčí k východu, jakoby do kruhu. Cesta zřejmě kopíruje hradby města. " +
+            "Po straně vedoucích od města odvádějí tunely splašky do příkopu. Tunely směrem k městu stoupají a smrdí opravdu výtečně. " +
+            "Hlavním tunelem od jihu cítíš lehký vánek a vůni moře. " +
+            "Chceš jít tunelem [na sever|19], [na jih za vůní moře|20], [na východ, směrem do města|21])?"
+    },
+
+    "49": {
+        text: "Doplaveš směrem k molu a vyškrábeš se nahoru. Nikdo si tě vůbec nevšímá. " +
+            "Není úplně neobvyklé, že někdo sletí po kluzském molu do moře. Navíc si ze sebe smyl splašky! " +
+            "Sůl není zdaleka tak protivná jako ten smrad. [Pokračovat do přístavu|50]",
+        gain: {itemId: 'SMRAD', count: -1}
+    },
+
+    "50": {
+        text: "V přístavu můžeš dělat spoustu věcí!"
+    },
+
     "22": {
         text: "*ŠPLOUCH*. Jsi ve městském příkopu. Smrdí jako prase. Není divu, když sem vytékájí kanalizací veškeré tekutiny vyloučené obyvateli města. Teď i ty smrdíš jako prase. Umíš Vůbec plavat? [Ano|8|SWIMMING], [Ne|12|SWIMMING:-1]",
         gain: {itemId: "SMRAD", description:"Smrdíš jako prase.", count: 1}
@@ -176,7 +240,4 @@ const STORY_1 = {
     "29.SMRAD:-1": {
         text: "Ale jakmile ses přiblížil, usmála se a jedním okem na tebe mrkla."
     },
-
-
-
 };
