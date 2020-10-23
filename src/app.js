@@ -1,5 +1,8 @@
+const version = "23.10.2020, 21:22 (v13 - json upload!)";
+
 $(function () {
     $('[data-toggle="tooltip"]').tooltip();
+
 });
 
 var game = {};
@@ -9,8 +12,6 @@ const STORIES = [
     STORY_1,
     HAFAAR,
 ];
-
-const version = "28.9.2020, 17:11 (v12 - bug fix!)";
 
 const main = () => {  
     writeElement("version", version);
@@ -31,6 +32,7 @@ const chooseStory = (storyTitle) => {
     for (let i = 0; i < STORIES.length; i++) {
         if (STORIES[i].title === storyTitle) {
             writeElement("availableStories", '');
+            writeElement("uploadStory", '');
             StoryValidator.testStory(STORIES[i]);  
             startGame(STORIES[i]);    
             gotoPage("1");

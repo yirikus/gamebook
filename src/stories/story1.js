@@ -97,7 +97,7 @@ const STORY_1 = {
     },
 
     "13": {
-        text: "Podařilo se ti zachytit stromu rostoucího u městských zdí! Neutopíš se! Nedaleko vydíš otvor ve zdi, ze kterého vytákají splašky do příkopu. [Jdi do kanalizace|8]",
+        text: "Podařilo se ti zachytit stromu rostoucího u městských zdí! Neutopíš se! Nedaleko vidíš otvor ve zdi, ze kterého vytákají splašky do příkopu. [Jdi do kanalizace|8]",
         gain: {itemId: "LUCKY", description: "Máš štěstí!"}
     },
 
@@ -202,7 +202,7 @@ const STORY_1 = {
     },
 
     "24": {
-        text: "Strážce se usměje a strčí si pěníze, vítá tě ve městě a přeje ti mnoho štěstí. [Úspěšně jsi se dostal za bránu!|10]",
+        text: "Strážce se usměje a strčí si peníze, vítá tě ve městě a přeje ti mnoho štěstí. [Úspěšně jsi se dostal za bránu!|10]",
         gain: {itemId: "MONEY", description: "Měšec", count: -10}
     },
 
