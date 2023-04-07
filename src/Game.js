@@ -11,7 +11,24 @@ class Game{
         this._statuses = [];                        
     }
 
-    getInventory() { return this._inventory }
+    getInventory() { return this._inventory; }
+
+    getCharacter() { return this._character; }
+
+    consumeItem(itemId) {
+        let item = this.getInventory().removeItem(itemId);
+        let effectItems = item.effect.items;
+        if (item.effect.hp) {
+            this._character.alterLife(item.effect.hp);
+        }
+        if (effectItems) {
+            for (let i = 0; i < effectItems.length; i++) {
+                this.getInventory().addItem(effectItems[i]);
+            }
+        }
+
+        return item.effect.description;
+    }
 
     shouldFight() {
         return !!this._story[this._page].fight;
@@ -60,7 +77,7 @@ class Game{
     }
 
     hasStatusOrItem(query) {
-        let parsedQuery = parser.parseQuery(query);
+        //let parsedQuery = parser.parseQuery(query);
         return this.getInventory().hasItem(query);
     }
 
@@ -112,7 +129,7 @@ class Game{
         }
         let page = this._story[this._page];
         let mergedPage = this.mergePage(page);
-        let options = concatOptions([], mergedPage);           
+        let options = concatOptions([], mergedPage);
         
         return mergedPage.text + ' ' + options.join(', ');
     }

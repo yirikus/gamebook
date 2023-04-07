@@ -10,6 +10,14 @@ class Inventory {
       getItems() { return this._items.filter(a => a.type !== 'STATUS'); }
 
     /**
+     * Reduces count of one item by 1
+      * @param itemId
+     */
+    removeItem(itemId) {
+        return this.addItem({itemId, count: -1});
+    }
+
+    /**
      * Adds copy of given item to inventory
      * @param {*} itemToAdd 
      */
@@ -27,6 +35,7 @@ class Inventory {
                 ...itemToAdd
             });
         }
+        return found;
     }   
 
     /**

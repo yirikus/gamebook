@@ -2,7 +2,6 @@ const version = "23.10.2020, 21:22 (v13 - json upload!)";
 
 $(function () {
     $('[data-toggle="tooltip"]').tooltip();
-
 });
 
 var game = {};
@@ -49,7 +48,7 @@ const chooseStory = (storyTitle) => {
 const gotoPage = (pageId) => {
     let page = game.gotoPage(pageId);
     renderPage(pageId, page.text, page.img);
-    renderInventory(game.getInventory().getItems());
+    renderInventory();
     renderFight();
 }
 
@@ -128,23 +127,50 @@ const renderPage = (pageId, pageText, img) => {
     writeElement("page", expandText(pageText));
 }
 
-const renderInventory = (inventory) => {
-    let text = "<ul>";
-    for (let i = 0; i < inventory.length; i++) {
-        text += renderItem(inventory[i]);
+/**
+ * @param itemsToRender array
+ */
+const renderInventory = (effectText) => {
+    let itemsToRender = game.getInventory().getItems();
+    let text = "<strong>HP: " + game.getCharacter().getLife() + "</strong>" +
+        "<ul>";
+    for (let i = 0; i < itemsToRender.length; i++) {
+        text += renderItem(itemsToRender[i]);
     }  
     text += "</ul>";
+    $('#character [data-toggle="tooltip"]').tooltip('dispose');
+    if (effectText){
+        document.getElementById("effect").className = '';
+        writeElement("effectText", effectText);
+    } else {
+        document.getElementById("effect").className = 'hidden';
+    }
     writeElement("character", text);
+    $('#character [data-toggle="tooltip"]').tooltip();
+
+}
+
+const consumeItem = (itemId) => {
+    renderInventory( game.consumeItem(itemId));
 }
 
 const renderItem = (item) => {
     let itemText = "<li>";
-        itemText += item.description;
-        if (item.count && item.count > 1) {
-            itemText += "(" + item.count + ")";
-        }
-        itemText += "</li>";
-        return itemText;
+    if (item.tooltip) {
+        itemText = "<li data-toggle=\"tooltip\" data-placement=\"left\" title=\""+ item.tooltip +"\">"
+    }
+    if (item.effect) {
+        itemText += "<a href=\"#\" onclick=\"consumeItem(\'" + item.itemId + "\')\" >";
+    }
+    itemText += item.description;
+    if (item.count && item.count > 1) {
+        itemText += "(" + item.count + ")";
+    }
+    if (item.effect) {
+        itemText += "</a>"
+    }
+    itemText += "</li>";
+    return itemText;
 }
 
 /**

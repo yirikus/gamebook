@@ -2,7 +2,16 @@ const STORY_1 = {
     "title": "Město za branou",
     "startItems": [
         {itemId:"SWIMMING", description: "Plavání", count: 1},
-        {itemId:"MONEY", description: "Měšec", count:5},        
+        {itemId:"MONEY", description: "Měšec", count:5},
+        {itemId:"APPLE", description: "Jabko", count:3, tooltip: "můžeš sníst jabko a vyléčit si 1 HP!",
+            effect: {
+                hp: 1,
+                description: "snědl jsi jabko, cítíš se lépe!"}},
+        {itemId:"CHOCOEGG", description: "čokoládové vejce", count:1, tooltip: "chrastí! Možná ho máš sníst a podívat se co je uvnitř!",
+            effect: {
+                items: [{itemId:"FIGURINE_DWARF", count:1, description: "Figurka trpajzlika", tooltip: "Má červenou čepici, vousy až na zem a v ruce drží čokovejce"}],
+                hp: 1,
+                description: "snědl jsi čokovejce, cítíš se lépe a navíc máš hračku!"}},
     ],  
     "basicAbilities": [
         Ability("PUNCH", "Rána pěstí", "Útočíš pěstí!", 1),

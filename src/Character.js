@@ -60,6 +60,12 @@ class Character {
         };
     }
 
+    alterLife(amount) {
+        if (this._life < this._maxLife) {
+            this._life += amount;
+        }
+    }
+
     receiveAttack(damage) {
         // apply damage reduction
         if (damage) {
