@@ -11,6 +11,7 @@ const STORIES = [
     DUMMY_STORY,
     STORY_1,
     HAFAAR,
+    HEIST,
 ];
 
 const main = () => {  
@@ -172,8 +173,11 @@ const expandText = (text) => {
     return replaced;
 }
 
-const getLocations = (text) => {
-    let toExpand = parser.getExpandableText(text);
+const getLocations = (text, options) => {
+    let toExpand = parser.getExpandableText(text) || [];
+    if (options) {
+        toExpand = toExpand.concat(options);
+    }
     let locations = [];
     if (toExpand) {        
         for (let i = 0; i < toExpand.length; i++) {

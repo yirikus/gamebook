@@ -1,9 +1,11 @@
 const testStory = (story) => {
-    return followPaths(story, 1);
+    let checkedPages = [];
+    return followPaths(story, 1, checkedPages);
 };
 
-const followPaths = (story, pageId) => {
-    let locations = getLocations(story[pageId].text);    
+const followPaths = (story, pageId, checkedPages) => {
+    checkedPages.push(pageId);
+    let locations = getLocations(story[pageId].text, story[pageId].options);
     let noCond = 0;
     let errors = '';
     for (let i = 0; i < locations.length; i++) {
@@ -12,10 +14,10 @@ const followPaths = (story, pageId) => {
         }
         if (!story[locations[i].id]) {
             concatError(errors, pageId + ": Location " + locations[i].id + " does not exist!");
-        } else {
-            errors += followPaths(story,locations[i].id);
+        } else if (checkedPages.indexOf(locations[i].id) < 0){
+            errors += followPaths(story, locations[i].id, checkedPages);
         }
-    } 
+    }
     if (locations.length != 0 && noCond === 0) {
         errors = concatError(errors, pageId + ": All options have condition!");
     }

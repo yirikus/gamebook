@@ -64,6 +64,9 @@ class Game{
         return this.getInventory().hasItem(query);
     }
 
+    /**
+     * Merges optional page parts to the given page
+     */
     mergePage = (page) => {
         let optionalText = page.text.match(/{([^}]*)}/g);
         let options = [];
@@ -109,7 +112,7 @@ class Game{
         }
         let page = this._story[this._page];
         let mergedPage = this.mergePage(page);
-        let options = concatOptions(concatOptions([], page), mergedPage);           
+        let options = concatOptions([], mergedPage);           
         
         return mergedPage.text + ' ' + options.join(', ');
     }
