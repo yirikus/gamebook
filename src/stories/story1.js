@@ -1,17 +1,6 @@
 const STORY_1 = {
     "title": "Město za branou",
     "startItems": [
-        {itemId:"SWIMMING", description: "Plavání", count: 1},
-        {itemId:"MONEY", description: "Měšec", count:5},
-        {itemId:"APPLE", description: "Jabko", count:3, tooltip: "můžeš sníst jabko a vyléčit si 1 HP!",
-            effect: {
-                hp: 1,
-                description: "snědl jsi jabko, cítíš se lépe!"}},
-        {itemId:"CHOCOEGG", description: "čokoládové vejce", count:1, tooltip: "chrastí! Možná ho máš sníst a podívat se co je uvnitř!",
-            effect: {
-                items: [{itemId:"FIGURINE_DWARF", count:1, description: "Figurka trpajzlika", tooltip: "Má červenou čepici, vousy až na zem a v ruce drží čokovejce"}],
-                hp: 1,
-                description: "snědl jsi čokovejce, cítíš se lépe a navíc máš hračku!"}},
     ],  
     "basicAbilities": [
         Ability("PUNCH", "Rána pěstí", "Útočíš pěstí!", 1),
@@ -44,8 +33,8 @@ const STORY_1 = {
     },
 
     "1" : {
-        text : "Stojíš před branou města. Okolo města je příkop, přes který vede most přímo k hlavní bráně. " +
-            "Půjdeš [po mostě|3], nebo zkusíš [přeplavat příkop|2], nebo zkusíš [přelézt zeď po laně|26|ROPE]?"
+        text: "Jsi zmatený, právě jsi se probudil/a uprostřed cesty a vůbec nevíš kdo jsi, ani kde jsi. Usilovně se snažíš vzpomenout kdo jsi a po nějaké době dospěješ k závěru, že jsi:",
+        options: ["[námořník|101]", "[válečník|102], [zloděj|103], [cukrář|104]"],
     },
     "2" : {
         text : "Najdeš si místo, kde je možné přeplavat příkop a vniknout do městské kanalizace. [Skočíš do příkopu|22]" 
@@ -106,7 +95,7 @@ const STORY_1 = {
     },
 
     "13": {
-        text: "Podařilo se ti zachytit stromu rostoucího u městských zdí! Neutopíš se! Nedaleko vidíš otvor ve zdi, ze kterého vytákají splašky do příkopu. [Jdi do kanalizace|8]",
+        text: "Podařilo se ti zachytit stromu rostoucího u městských zdí! Neutopíš se! Nedaleko vidíš otvor ve zdi, ze kterého vytékají splašky do příkopu. [Jdi do kanalizace|8]",
         gain: {itemId: "LUCKY", description: "Máš štěstí!"}
     },
 
@@ -166,39 +155,7 @@ const STORY_1 = {
         gain: {itemId: 'SHITFELL', type:'STATUS', count: 1}
     },
 
-    "30": {
-        text: "Fuj. No Tak ale to byl fakt debilní nápad. Ne nejde. Je to pevná železná mříž. proleze tím leda tak myš. Zkus něco jiného.<br/>" +
-            "Chceš jít tunelem [na jih |20], nebo [na východ, směrem do města|21])?"
-    },
 
-    "31": {
-        text: "Dokázal jsi to! Prolezl jsi kanalizací a vyškrábal se ven na světlo. Stojíš na náměstí u stěný v kruhové " +
-            "nádrži plné hoven a nadšeně řveš 'JO! JSEM PÁN KANÁLU! DOKÁZAL JSEM TO!'. Ruch na náměstí ustal a všichni " +
-            "sledující špinavého smradlavého křičejícího člověka, který právě vylezl z kanálu. [Co teď?|32]",
-        gain: {itemId: 'SEWERKING', description:'Jsi král kanalizace', count: 1}
-    },
-
-    "32": {
-        text: "Na náměstí můžeš dělat spoustu věcí!"
-    },
-
-    "40": {
-        text: "Tunel se oběma směry stáčí k východu, jakoby do kruhu. Cesta zřejmě kopíruje hradby města. " +
-            "Po straně vedoucích od města odvádějí tunely splašky do příkopu. Tunely směrem k městu stoupají a smrdí opravdu výtečně. " +
-            "Hlavním tunelem od jihu cítíš lehký vánek a vůni moře. " +
-            "Chceš jít tunelem [na sever|19], [na jih za vůní moře|20], [na východ, směrem do města|21])?"
-    },
-
-    "49": {
-        text: "Doplaveš směrem k molu a vyškrábeš se nahoru. Nikdo si tě vůbec nevšímá. " +
-            "Není úplně neobvyklé, že někdo sletí po kluzském molu do moře. Navíc si ze sebe smyl splašky! " +
-            "Sůl není zdaleka tak protivná jako ten smrad. [Pokračovat do přístavu|50]",
-        gain: {itemId: 'SMRAD', count: -1}
-    },
-
-    "50": {
-        text: "V přístavu můžeš dělat spoustu věcí!"
-    },
 
     "22": {
         text: "*ŠPLOUCH*. Jsi ve městském příkopu. Smrdí jako prase. Není divu, když sem vytékájí kanalizací veškeré tekutiny vyloučené obyvateli města. Teď i ty smrdíš jako prase. Umíš Vůbec plavat? [Ano|8|SWIMMING], [Ne|12|SWIMMING:-1]",
@@ -249,4 +206,127 @@ const STORY_1 = {
     "29.SMRAD:-1": {
         text: "Ale jakmile ses přiblížil, usmála se a jedním okem na tebe mrkla."
     },
+
+    "30": {
+        text: "Fuj. No Tak ale to byl fakt debilní nápad. Ne nejde. Je to pevná železná mříž. proleze tím leda tak myš. Zkus něco jiného.<br/>" +
+            "Chceš jít tunelem [na jih |20], nebo [na východ, směrem do města|21])?"
+    },
+
+    "31": {
+        text: "Dokázal jsi to! Prolezl jsi kanalizací a vyškrábal se ven na světlo. Stojíš na náměstí u stěný v kruhové " +
+            "nádrži plné hoven a nadšeně řveš 'JO! JSEM PÁN KANÁLU! DOKÁZAL JSEM TO!'. Ruch na náměstí ustal a všichni " +
+            "sledující špinavého smradlavého křičejícího člověka, který právě vylezl z kanálu. [Co teď?|32]",
+        gain: {itemId: 'SEWERKING', description:'Jsi král kanalizace', count: 1}
+    },
+
+    "32": {
+        text: "Na náměstí můžeš dělat spoustu věcí!"
+    },
+
+    "40": {
+        text: "Tunel se oběma směry stáčí k východu, jakoby do kruhu. Cesta zřejmě kopíruje hradby města. " +
+            "Po straně vedoucích od města odvádějí tunely splašky do příkopu. Tunely směrem k městu stoupají a smrdí opravdu výtečně. " +
+            "Hlavním tunelem od jihu cítíš lehký vánek a vůni moře. " +
+            "Chceš jít tunelem [na sever|19], [na jih za vůní moře|20], [na východ, směrem do města|21])?"
+    },
+
+    "49": {
+        text: "Doplaveš směrem k molu a vyškrábeš se nahoru. Nikdo si tě vůbec nevšímá. " +
+            "Není úplně neobvyklé, že někdo sletí po kluzském molu do moře. Navíc si ze sebe smyl splašky! " +
+            "Sůl není zdaleka tak protivná jako ten smrad. [Pokračovat do přístavu|50]",
+        gain: {itemId: 'SMRAD', count: -1}
+    },
+
+    "50": {
+        text: "V přístavu můžeš dělat spoustu věcí!"
+    },
+    "100":{
+        text : "Stojíš před branou města. Okolo města je příkop, přes který vede most přímo k hlavní bráně. " +
+            "Půjdeš [po mostě|3], nebo zkusíš [přeplavat příkop|2], nebo zkusíš [přelézt zeď po laně|26|ROPE]?"
+    },
+
+    "101":{
+        text : "Už si vzpomínáš! Jsi světoznámý mořeplavec, který je na cestě do přístavu! Rozhlížíš se okolo, jestli se někde neválí taška s věcma, které jsi si vzal na cestu. No hele, je tu! [Přemýšlíš co v ní asi je?|110]",
+        gain: {itemId: 'SWIMMING', description: "umíš plavat", count: 1},
+    },
+    "102":{
+        text : "Už si vzpomínáš! Jsi světoznámý válečník, který cestuje po světě a vyzývá na souboj další nejslavnější bojovníky! Další musí být právě v městě, do kterého se chystáš. Rozhlížíš se okolo, jestli se někde neválí taška s věcma, které jsi si vzal na cestu. No hele, je tu! [Přemýšlíš co v ní asi je?|110]",
+        gain: {itemId: 'STRENGTH', description: "máš fakt velké svaly", count: 1},
+    },
+    "103":{
+        text : "Už si vzpomínáš! Jsi světoznámý zloděj, který je na cestě za lupem! Rozhlížíš se okolo, jestli se někde neválí taška s věcma, které jsi si vzal na cestu. No hele, je tu! [Přemýšlíš co v ní asi je?|110]",
+        gain: {itemId: 'STEALTH', description: "jsi velmi nenápadný", count: 1},
+    },
+    "104":{
+        text : "Už si vzpomínáš! Jsi světoznámý cukrář, který je na cestě za poznáním! Rozhlížíš se okolo, jestli se někde neválí taška s věcma, které jsi si vzal na cestu. No hele, je tu! [Přemýšlíš co v ní asi je?|110]",
+        gain: [{itemId: 'COOKING', description: "umíš vařit", count: 1},
+              {itemId:"CHOCOEGG", description: "čokoládové vejce", count:1, tooltip: "chrastí! Možná ho máš sníst a podívat se co je uvnitř!",
+            effect: {
+                items: [{itemId:"FIGURINE_DWARF", count:1, description: "Figurka trpajzlika", tooltip: "Má červenou čepici, vousy až na zem a v ruce drží čokovejce"}],
+                hp: 1,
+                description: "snědl jsi čokovejce, cítíš se lépe a navíc máš hračku!"}}]
+    },
+    "110":{
+        text : "Jsi si jistý/á, že do tašky jsi si dal/a dvě věci, které to jsou? {STARTING_ITEMS:-2}{STARTING_ITEMS:2}",
+    },
+    "110.STARTING_ITEMS:-2" : {
+        text :
+            "<br/>[lano|111|ROPE:-1]<br/>" +
+            "[lampa|112|LAMP:-1]<br/>" +
+            "[meč|113|SWORD:-1]<br/>" +
+            "[spousta prachů|114|MONEZ:-1]<br/>" +
+            "[pytel mouky|115|FLOUR:-1]<br/>" +
+            "[pamlsky pro kočky|116|CAT_TREATS:-1]<br/>" +
+            "[lahev s rumem|117|RUM:-1]<br/>" +
+            "[lahev s jedem|118|POISON:-1]<br/>" +
+            "[jabka|119|APPLES:-1]<br/>"
+    },
+    "110.STARTING_ITEMS:2" : {
+        text : "[Myslím, že už nic dalšího, kde to vlastně jsem?|100]"
+    },
+
+    "111":{
+        text : "Jasně, lano, a[...|110] ",
+        gain : [{itemId: 'ROPE', description: "lano", count: 1},{itemId: 'STARTING_ITEMS', count: 1, type: 'STATUS'}]
+    },
+
+    "112":{
+        text : "Jasně, lampu, a[...|110] ",
+        gain : [{itemId: 'LAMP', description: "lampa", count: 1},{itemId: 'STARTING_ITEMS', count: 1, type: 'STATUS'}]
+    },
+
+    "113":{
+        text : "Jasně, meč, a[...|110] ",
+        gain : [{itemId: 'SWORD', description: "meč", count: 1},{itemId: 'STARTING_ITEMS', count: 1, type: 'STATUS'}]
+    },
+    "114":{
+        text : "Jasně, prachy, a[...|110] ",
+        gain : [{itemId: 'MONEY', description: "měšec", count: 10},{itemId: 'STARTING_ITEMS', count: 1, type: 'STATUS'},{itemId: 'MONEZ', count: 1, type: 'STATUS'}]
+    },
+    "115":{
+        text : "Jasně, mouku, a[...|110] ",
+        gain : [{itemId: 'FLOUR', description: "pytel mouky", count: 1},{itemId: 'STARTING_ITEMS', count: 1, type: 'STATUS'}]
+    },
+    "116":{
+        text : "Jasně, pamlsky pro kočky, a[...|110] ",
+        gain : [{itemId: 'CAT_TREATS', description: "kočičí pamlsky", count: 1},{itemId: 'STARTING_ITEMS', count: 1, type: 'STATUS'}]
+    },
+    "117":{
+        text : "Jasně, rum, a[...|110] ",
+        gain : [{itemId: 'RUM', description: "rum", count: 1},{itemId: 'STARTING_ITEMS', count: 1, type: 'STATUS'}]
+    },
+    "118":{
+        text : "Jasně, jed, a[...|110] ",
+        gain : [{itemId: 'POISON', description: "jed", count: 1},{itemId: 'STARTING_ITEMS', count: 1, type: 'STATUS'}]
+    },
+    "119":{
+        text : "Jasně, jabka, a[...|110] ",
+        gain : [{itemId:"APPLE", description: "Jabko", count:3, tooltip: "můžeš sníst jabko a vyléčit si 1 HP!",
+            effect: {
+                hp: 1,
+                description: "snědl jsi jabko, cítíš se lépe!"}}
+                 ,{itemId: 'APPLES', count: 1, type: 'STATUS'}
+                ,{itemId: 'STARTING_ITEMS', count: 1, type: 'STATUS'}]
+    },
+
 };

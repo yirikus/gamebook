@@ -163,6 +163,9 @@ const renderItem = (item) => {
         itemText += "<a href=\"#\" onclick=\"consumeItem(\'" + item.itemId + "\')\" >";
     }
     itemText += item.description;
+    if (!item.description) {
+        console.error("missing item description for " + item.itemId);
+    }
     if (item.count && item.count > 1) {
         itemText += "(" + item.count + ")";
     }
