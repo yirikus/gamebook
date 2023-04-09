@@ -1,6 +1,6 @@
 const testStory = (story) => {
     let checkedPages = [];
-    return followPaths(story, 1, checkedPages);
+    return followPaths(story, story.start || 1, checkedPages);
 };
 
 const followPaths = (story, pageId, checkedPages) => {

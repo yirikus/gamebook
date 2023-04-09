@@ -11,6 +11,7 @@ const STORIES = [
     STORY_1,
     HAFAAR,
     HEIST,
+    StoryGenerator.createRandomStory()
 ];
 
 const main = () => {  
@@ -35,7 +36,7 @@ const chooseStory = (storyTitle) => {
             writeElement("uploadStory", '');
             StoryValidator.testStory(STORIES[i]);  
             startGame(STORIES[i]);    
-            gotoPage("1");
+            gotoPage(STORIES[i].start || "1");
             return;
         }
     }
@@ -181,7 +182,7 @@ const renderItem = (item) => {
  */
 const pageAnchor = (anchorLabel, pageId, condition) => {
     if (!condition || (condition && game.getInventory().hasItem(condition))) {
-        return '<a href="#" onclick="gotoPage(' + pageId + ')" >' + anchorLabel + ' (#' + pageId + ')</a>';
+        return '<a href="#" onclick="gotoPage(\'' + pageId + '\')" >' + anchorLabel + ' (#' + pageId + ')</a>';
     } else {
         return '<s>' + anchorLabel + ' (#' + pageId + ')</s>'; 
     }
