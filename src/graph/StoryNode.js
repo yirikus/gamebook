@@ -2,7 +2,7 @@
  * Graph node for story generation
  * */
 class StoryNode {
-    constructor(module, index) {
+    constructor(module, index, maxTransitions) {
         if (!module || index === undefined) {
             throw 'index and module must be provided';
         }
@@ -12,6 +12,7 @@ class StoryNode {
         this._final = false;
         this._id =  index;
         this._label = module.label || this._id;
+        this.maxTransitions = maxTransitions || this.module.maxTransitions;
 
         if (!module.label) {
             console.error('module ' + module.label + ' has no label');
@@ -51,7 +52,17 @@ class StoryNode {
         return this._transitions;
     }
 
+    /**
+     * Adds bidirectional transition
+     * @param targetNode
+     */
+    addTransition(targetNode) {
+        // add transition in both directions
+        this.getTransitions().push(targetNode);
+        targetNode.getTransitions().push(this);
+    }
+
     getFreeTransitionCount() {
-        return Math.max(0,this.module.maxTransitions ? this.module.maxTransitions : GENERATION.MAX_TRANSITIONS - this.getTransitions().length);
+        return Math.max(0,this.maxTransitions ? this.maxTransitions : GENERATION.MAX_TRANSITIONS - this.getTransitions().length);
     }
 }

@@ -3,10 +3,17 @@ Simple gamebook engine.
 You can test it on http://yirikus.cz/x/story/
 
 ## TODO:
-* consumable items
+SGE:
 * equipment
 * continue the sample story!
 * enable saving using serialization to base64 string (pageId + character)
+
+Story generation
+* actions should not be counted toward transition maximum
+* simple goal and win
+* gated paths that need a key
+* characters
+* enemies
 
 # Documentation
 
@@ -155,5 +162,8 @@ To mark an end of a story, you simply add end:true and no options.
 ## Adding abilities
 
 # Known bugs
+SGE:
 * HPs on character sheet does not update when in fight
 * HPs on fight div does not update when item is consumed 
+generator:
+* not possible to connect cemetery to the rest of the graph - actions might be the cause.

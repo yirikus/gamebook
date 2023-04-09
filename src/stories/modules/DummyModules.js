@@ -8,8 +8,9 @@ const MODULES = [
     gatedExits:[4],*/
     actions: [{
         label: 'kopat hrob',
+        condition: 'GRAVE_DUG:-1',
         text: 'Vykopal jsi hrob a něco jsi našel!',
-        gain: '?',
+        gain: [{itemId: "MONEY", description: "peníze", count: 1}, {itemId: "GRAVE_DUG", count: 1, type: 'status'}],
     }]
 },
     {

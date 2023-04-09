@@ -8,6 +8,8 @@ class StoryGenerator {
         this._id = 0;
     }
 
+    /* goal: find artifact*/
+
     createRandomStory() {
         let nodes = [];
         let nodesToAdd = tools.randomNumbers(GENERATION.MAX_NODES, MODULES.length);
@@ -21,7 +23,17 @@ class StoryGenerator {
                 node = new StoryNode(this.findIntersectionModuleFrom(i), this._id);
             }
             this._id++;
-            this.connectNode(node, nodes, connectables, paths);
+            this.connectToRandomNodes(node, nodes, connectables, paths);
+            // connect actions
+            if (node.module.actions) {
+                node.module.actions.forEach(a => {
+                    let newNode = new StoryNode(a, this._id, 1);
+                    newNode.addTransition(node);
+                    this._id++;
+                    nodes.push(newNode);
+                });
+
+            }
         }
         //FIXME set end node - the node must make sense
         nodes[nodes.length - 1].setFinal();
@@ -50,32 +62,42 @@ class StoryGenerator {
         };
 
         for (let i = 0; i < nodes.length; i++) {
-            storyMap[nodes[i].getId()] = {
-                text: nodes[i].getText(),
-                options: this.createOptions(nodes[i]),
-            };
+            storyMap[nodes[i].getId()] = this.createStoryPart(nodes[i]);
         }
 
         console.info(JSON.stringify(storyMap));
         return storyMap;
     }
 
+    createStoryPart(node) {
+        let storyPart = {
+            text: node.getText(),
+            options: this.createOptions(node),
+        };
+        if (node.module.gain) {
+            storyPart.gain =  node.module.gain;
+        }
+        return storyPart;
+    }
+
     createOptions(node) {
         let options = [];
         for (let i = 0; i < node.getTransitions().length; i++) {
-            options.push("[" + node.getTransitions()[i].getLabel() + "|" + node.getTransitions()[i].getId() + "]")
+            let condition = node.getTransitions()[i].module.condition;
+            condition ? condition = '|' + condition : condition = '';
+            options.push("[" + node.getTransitions()[i].getLabel() + "|" + node.getTransitions()[i].getId() + condition + "]")
         }
         return options;
     }
 
-    connectNode(node, nodes, connectableNodes, paths) {
+    connectToRandomNodes(node, nodes, connectableNodes, paths) {
         if (nodes.length <= 0) {
             //create start node
             node.setInitial();
             nodes.push(node);
         } else {
             // connect to other nodes
-            let nodeCount =  tools.randomNumber(node.module.maxTransitions ? node.module.maxTransitions : GENERATION.MAX_TRANSITIONS) + 1;
+            let nodeCount =  tools.randomNumber(node.maxTransitions ? node.maxTransitions : GENERATION.MAX_TRANSITIONS) + 1;
             // we always have to have at least one open path to connect an intersection.
             // By reducing number of transitions to 1 when we have low amounts of paths we ensure that intersection is added
             if (nodeCount >= paths) {
@@ -86,8 +108,7 @@ class StoryGenerator {
 
             for (let i = 0; i < nodesToConnect.length; i++) {
                 // add transition in both directions
-                node.getTransitions().push(nodesToConnect[i]);
-                nodesToConnect[i].getTransitions().push(node);
+                node.addTransition(nodesToConnect[i]);
             }
             // connect action nodes
             nodes.push(node);

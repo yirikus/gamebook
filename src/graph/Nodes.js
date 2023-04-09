@@ -18,5 +18,5 @@ Nodes.countPaths = (nodes) => {
 
 Nodes.maxTransitionsReached = (node) => {
     let length = node.getTransitions().length;
-    return  length >= GENERATION.MAX_TRANSITIONS || (node.module.maxTransitions ? length >= node.module.maxTransitions : false);
+    return  length >= GENERATION.MAX_TRANSITIONS || (node.maxTransitions ? length >= node.maxTransitions : false);
 }
