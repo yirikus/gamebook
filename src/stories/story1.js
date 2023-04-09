@@ -104,7 +104,7 @@ const STORY_1 = {
         gain: [
             {itemId: "SWORD", description: "Meč", count:1, damage: 2},
             {itemId: "MONEY", description: "Měšec", count: 10},
-            {itemId: "SANDWICH", description: "Sendvič", count: 1, consumable: {life: 1}},
+            {itemId: "SANDWICH", description: "Sendvič", count: 1, effect: {hp: 1}},
             {itemId: "NUDE_PIC", description: "Obrázek nahaté slečny", count: 1},
             {itemId: "GUARDTHEFT", type: 'STATUS'},
         ]

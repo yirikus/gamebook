@@ -9,6 +9,17 @@ tools.randomNumbers = (count, max) => {
     return list;
 }
 
+tools.randomElements = (count, elements) => {
+    let randomIndeces = tools.randomNumbers(count, elements.length);
+    return randomIndeces.map(i => elements[i]);
+}
+
+/**
+ * Increment value until you find one that is not in the list. When max number is reached, start over
+ * @param value starting value
+ * @param list list of values
+ * @param max max number
+ */
 tools.incrementWhileExist = (value, list, max) => {
     if (list.length == 0 || max == 0 || list.length >= max) {
         return value;

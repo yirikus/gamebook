@@ -11,7 +11,7 @@ const STORIES = [
     STORY_1,
     HAFAAR,
     HEIST,
-    StoryGenerator.createRandomStory()
+    (new StoryGenerator()).createRandomStory()
 ];
 
 const main = () => {  
