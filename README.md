@@ -107,9 +107,9 @@ This means "player must have less than 2 tooth pastes"
 ### Giving and taking items from player
 If you want to give or take something to/from player you use `gain` attribute. For example:
 ```
-"gain": {"itemId": "TOOTPASTE", "description": "Your awesome paste", "count": 3},
+"gain": {"itemId": "TOOTHPASTE", "description": "Your awesome paste", "count": 3, "tooltip":"This is an awesome green paste"},
 ```
-This will give player a toothpaste. **itemId** is the most important part as this is used in conditions. **Description** is what will player see in his player section. **count** specifies how many items of this type player should get. This can be negative.
+This will give player a toothpaste. **itemId** is the most important part as this is used in conditions. **Description** is what will player see in his player section. **count** specifies how many items of this type player should get. This can be negative. **Tooltip** is a longer description that can display additional information in the form of a tooltip.
 
 ### giving removing player statuses
 In a similiar way like items, you can give player a status. The main difference is that these are secret. ie player can do something good or bad and you want to alter story without him knowing:
@@ -118,6 +118,20 @@ In a similiar way like items, you can give player a status. The main difference 
 ```
 As you see the only thing that is difference is that we used `"type": "STATUS"`.
 To take it away, you use `count:-1`
+
+### Consumable items
+You can give consumable items to the player. As of consuming an item can change players HP or give items. If you want to have a consumable item simply add attribute **effect** like in the following example:
+```
+{itemId:"CHOCOEGG", description: "chocolate egg", count:1, tooltip: "There is something inside!",
+ effect: {
+  items: [{itemId:"FIGURINE_DWARF", count:1, description: "Figurka trpajzlika", tooltip: "Má červenou čepici, vousy až na zem a v ruce drží čokovejce"}],
+  hp: 1,
+  description: "snědl jsi čokovejce, cítíš se lépe a navíc máš hračku!"}}
+```
+attribute **effect** has 3 attributes:
+* items: list of items player will gain/lose when he consumes the item
+* hp: amount of hp player will gain/lose when he consumes the item
+* description: Description of the effect that will be displayed when the item is consumed
 
 ### Conditional text blocks
 Like with navigation you can have conditional text blocks that will display only if user satisfies the condition. Like this:
@@ -141,4 +155,5 @@ To mark an end of a story, you simply add end:true and no options.
 ## Adding abilities
 
 # Known bugs
-
+* HPs on character sheet does not update when in fight
+* HPs on fight div does not update when item is consumed 
