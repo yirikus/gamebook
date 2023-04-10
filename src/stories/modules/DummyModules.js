@@ -47,6 +47,15 @@ const ARTIFACT_FOUND = {
     text: 'Otevřel jsi bednu s pokladem a našel jsi v ní... <span class="emp3">POKLAD</span>.'
 };
 
+// instead of an intro, attach it to a character/obstacle, this way, one person can give several quests.
+const QUEST_STUBS = [
+    {   intro: "Vidíš kočku, na krku má cosi připnuté",
+        start: {label: 'Zkusit chytit kočku', text: 'Nemáš šanci, kočka hbitě uskočila pryč'},
+        finish:{label: 'Nalákat kočku na <QUEST_ITEM>', text: 'Opatrně se přibližuješ ke kočce a máváš návnadou. Kočka je zvědavá a nechává tě se přiblížit. Jakmile to jde, okamžitě chňapneš věc co má na krku. Cha-chá, přelstil jsi kočku! Odměna je tvoje.' },
+        reward: '<REWARD>'
+    }
+]
+
 const ARTIFACT_LOCATION = ' Na zemi leží bedna s pokladem';
 
 const ITEMS = [
