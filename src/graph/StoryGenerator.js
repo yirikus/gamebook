@@ -12,13 +12,21 @@ class StoryGenerator {
 
     createRandomStory() {
         let nodes = [];
+        const connectAction = (node, singleDirection) => (a) => {
+            let newNode = new StoryNode(a, this._id, 1, NODE_TYPE.ACTION);
+            newNode.addTransition(node, singleDirection);
+            this._id++;
+            nodes.push(newNode);
+        };
+
         let nodesToAdd = tools.randomNumbers(GENERATION.MAX_NODES, MODULES.length);
         for (let i = 0; i < nodesToAdd.length; i++) {
             let connectables = Nodes.connectable(nodes)
             // choose random from modules
             let node = new StoryNode(MODULES[nodesToAdd[i]], this._id);
-            let paths = Nodes.countPaths(connectables) + node.getFreeTransitionCount();
-            if (paths <= 1 &&  i < (nodesToAdd.length - 1)) {
+            let paths = Nodes.countPaths(connectables);
+            console.info('node ' + i + ', available paths: ' + paths);
+            if (paths <= 1 &&  i < (nodesToAdd.length - 1) && node.getFreeTransitionCount() < 2) {
                 // reroll node, more paths are needed
                 node = new StoryNode(this.findIntersectionModuleFrom(i), this._id);
             }
@@ -26,17 +34,28 @@ class StoryGenerator {
             this.connectToRandomNodes(node, nodes, connectables, paths);
             // connect actions
             if (node.module.actions) {
-                node.module.actions.forEach(a => {
-                    let newNode = new StoryNode(a, this._id, 1);
-                    newNode.addTransition(node);
-                    this._id++;
-                    nodes.push(newNode);
-                });
-
+                node.module.actions.forEach(connectAction(node));
             }
         }
-        //FIXME set end node - the node must make sense
-        nodes[nodes.length - 1].setFinal();
+
+        let locationNodes = nodes.filter( n => n.nodeType !== NODE_TYPE.ACTION);
+        // hide a key and a treasure,
+        let randomIndex = tools.randomNumberFromRange(1, locationNodes.length);
+        let keyNode = locationNodes[randomIndex];
+        if (!keyNode) console.error('undefined node at location ' + randomIndex);
+        randomIndex = tools.randomNumberFromRange(Math.floor(locationNodes.length/2), locationNodes.length);
+        let treasureNode = locationNodes[randomIndex];
+        if (!treasureNode) console.error('undefined node at location ' + randomIndex);
+        locationNodes.forEach( l => {
+                if (l != keyNode && l != treasureNode) {
+                    connectAction(l)(SEARCH_FAIL);
+                }
+            }
+        );
+        connectAction(keyNode)(SEARCH_SUCCESS);
+        treasureNode.getText().concat(ARTIFACT_LOCATION);
+        connectAction(treasureNode, true)(ARTIFACT_FOUND);
+
         // connect it to the existing graph
         return this.convertGraphToStory(nodes);
     }
@@ -96,6 +115,9 @@ class StoryGenerator {
             node.setInitial();
             nodes.push(node);
         } else {
+            if(connectableNodes.length <= 0) {
+                console.error('ran out of paths');
+            }
             // connect to other nodes
             let nodeCount =  tools.randomNumber(node.maxTransitions ? node.maxTransitions : GENERATION.MAX_TRANSITIONS) + 1;
             // we always have to have at least one open path to connect an intersection.

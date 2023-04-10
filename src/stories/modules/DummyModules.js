@@ -29,6 +29,26 @@ const MODULES = [
     {label: 'obchod', text:'jsi v obchůdku', maxTransitions:1},
 ];
 
+const SEARCH_SUCCESS = {
+    label: 'prohledat ',
+    text: 'Našel jsi <span class="emp3"> klíč k pokladu!</span>',
+    gain: [{itemId: "KEY", description: "klíč k pokladu!", count: 1}]
+};
+
+const SEARCH_FAIL = {
+    label: 'prohledat ',
+    text: 'Našel jsi prd.'
+};
+
+const ARTIFACT_FOUND = {
+    condition: 'KEY',
+    label: 'otevřít bednu s pokladem',
+    end: true,
+    text: 'Otevřel jsi bednu s pokladem a našel jsi v ní... <span class="emp3">POKLAD</span>.'
+};
+
+const ARTIFACT_LOCATION = ' Na zemi leží bedna s pokladem';
+
 const ITEMS = [
     {itemId: "MONEY", description: "peníze", count: 1},
     {itemId: "SANDWICH", description: "Sendvič", count: 1, effect: {hp: 1}},

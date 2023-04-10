@@ -1,8 +1,11 @@
+const NODE_TYPE = {
+    ACTION: 1
+}
 /**
  * Graph node for story generation
  * */
 class StoryNode {
-    constructor(module, index, maxTransitions) {
+    constructor(module, index, maxTransitions, nodeType) {
         if (!module || index === undefined) {
             throw 'index and module must be provided';
         }
@@ -10,6 +13,7 @@ class StoryNode {
         this._transitions = [];
         this._initial = false;
         this._final = false;
+        this.nodeType = nodeType;
         this._id =  index;
         this._label = module.label || this._id;
         this.maxTransitions = maxTransitions || this.module.maxTransitions;
@@ -53,16 +57,23 @@ class StoryNode {
     }
 
     /**
-     * Adds bidirectional transition
+     * Adds bidirectional transition by default
      * @param targetNode
+     * @param singleDirection only targetNode will connect to this node
      */
-    addTransition(targetNode) {
+    addTransition(targetNode, singleDirection) {
         // add transition in both directions
-        this.getTransitions().push(targetNode);
         targetNode.getTransitions().push(this);
+        if (!singleDirection) {
+            this.getTransitions().push(targetNode);
+
+        }
     }
 
     getFreeTransitionCount() {
-        return Math.max(0,this.maxTransitions ? this.maxTransitions : GENERATION.MAX_TRANSITIONS - this.getTransitions().length);
+        let locationTransitions = 0;
+        // action transitions are ignored
+        this.getTransitions().forEach(t => (t.nodeType !== NODE_TYPE.ACTION) && locationTransitions++);
+        return Math.max(0,this.maxTransitions ? this.maxTransitions : GENERATION.MAX_TRANSITIONS - locationTransitions);
     }
 }

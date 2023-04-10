@@ -37,3 +37,7 @@ tools.incrementWhileExist = (value, list, max) => {
 tools.randomNumber = (max) => {
     return Math.floor(Math.random() * max);
 }
+
+tools.randomNumberFromRange = (min, max) => {
+    return Math.min(Math.floor(Math.random() * max) + min, max - 1);
+}

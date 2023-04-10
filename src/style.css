@@ -19,6 +19,22 @@ html {
   /* Custom page CSS
   -------------------------------------------------- */
 
+.emp1 {
+    color: brown;
+}
+
+.emp2 {
+    color: darkcyan;
+}
+
+.emp3 {
+    color: blueviolet;
+}
+
+.emp4 {
+    color: darkgreen;
+}
+
   
 .top-buffer { margin-top:20px; }
 .bottom-buffer { margin-bottom:100px; }

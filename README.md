@@ -14,6 +14,7 @@ Story generation
 * gated paths that need a key
 * characters
 * enemies
+* split movement and actions
 
 # Documentation
 
