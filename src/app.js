@@ -148,6 +148,8 @@ const renderInventory = (effectText) => {
     }
     writeElement("character", text);
     $('#character [data-toggle="tooltip"]').tooltip();
+    writeElement("map",game.getMap());
+    document.getElementById("mapId" + game._page).className = 'playerLoc';
 
 }
 

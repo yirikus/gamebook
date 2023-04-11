@@ -120,6 +120,10 @@ class Game{
         return this._story[this._page].img;
     }
 
+    getMap() {
+        return this._story.map || '';
+    }
+
     getPageText() {
         const concatOptions = (options, page) => {
             if (page.options) {

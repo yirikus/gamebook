@@ -26,12 +26,13 @@ class StoryGenerator {
             let node = new StoryNode(MODULES[nodesToAdd[i]], this._id);
             let paths = Nodes.countPaths(connectables);
             console.info('node ' + i + ', available paths: ' + paths);
-            if (paths <= 1 &&  i < (nodesToAdd.length - 1) && node.getFreeTransitionCount() < 2) {
+            if (paths <= 1 &&  i < (nodesToAdd.length - 1) && node.getRemainingTransitions() < 2) {
                 // reroll node, more paths are needed
                 node = new StoryNode(this.findIntersectionModuleFrom(i), this._id);
             }
             this._id++;
-            this.connectToRandomNodes(node, nodes, connectables, paths);
+            //this.connectToRandomNodes(node, nodes, connectables, paths);
+            this.connectOrthoToRandomNodes(node, nodes, connectables, paths);
             // connect actions
             if (node.module.actions) {
                 node.module.actions.forEach(connectAction(node));
@@ -85,6 +86,25 @@ class StoryGenerator {
         }
 
         console.info(JSON.stringify(storyMap));
+
+        const IMG_SIZE = 35;
+        const renderMap = (nodes) => {
+            if (nodes[0].x === undefined) {
+                return '';
+            }
+            let html = '';
+            nodes.filter(n => n.nodeType !== NODE_TYPE.ACTION).forEach(n=>{
+                let style = ' style="position:absolute ';
+                style += ';left:' + n.x * IMG_SIZE + 'px';
+                style += ';bottom:' + n.y * IMG_SIZE + 'px"';
+                html +='<div class="mapCell"' + style + '><span id="mapId' + n.getId() + '">'  + n.getId() + '</span></div>';
+                    html += '<img class="mapImg" ' + style + 'src="img/map/' + n.getImg() + '"> ';
+            })
+            return html;
+        }
+
+        storyMap.map = renderMap(nodes);
+
         return storyMap;
     }
 
@@ -107,6 +127,46 @@ class StoryGenerator {
             options.push("[" + node.getTransitions()[i].getLabel() + "|" + node.getTransitions()[i].getId() + condition + "]")
         }
         return options;
+    }
+
+    connectOrthoToRandomNodes(node, nodes, connectableNodes, paths) {
+        if (nodes.length <= 0) {
+            //create start node
+            node.setInitial();
+            nodes.push(node);
+        } else {
+            if(connectableNodes.length <= 0) {
+                console.error('ran out of paths');
+            }
+            // connect to other nodes
+            let transitionCount =  tools.randomNumber(node.getMaxTransitions()) + 1;
+            // we always have to have at least one open path to connect an intersection.
+            // By reducing number of transitions to 1 when we have low amounts of paths we ensure that intersection is added
+            if (transitionCount >= paths) {
+                transitionCount = 1;
+            }
+            // select random number of existing nodes that have free connections
+            let nodeToConnect = tools.randomElements(1, connectableNodes)[0];
+            //connect to a free position on given node
+            let freeCoords = nodeToConnect.findAdjacentCells(true);
+            node.setCoords(tools.randomElements(1, freeCoords)[0]);
+            node.addTransition(nodeToConnect);
+            transitionCount--;
+            //connect to neighbours
+            let adjacentNodes = Nodes.findAdjacentNodes(node, nodes);
+
+            for (let i = 0; i < adjacentNodes.length; i++) {
+                if (transitionCount > 0) {
+                    // add transition in both directions
+                    node.addTransition(adjacentNodes[i]);
+                    transitionCount--;
+                } else {
+                    break;
+                }
+            }
+            // connect action nodes
+            nodes.push(node);
+        }
     }
 
     connectToRandomNodes(node, nodes, connectableNodes, paths) {

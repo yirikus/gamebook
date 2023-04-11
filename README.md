@@ -16,6 +16,10 @@ Story generation
 * enemies
 * split movement and actions
 
+packaging
+* rewrite to electron.js
+** consideration: will I get gamepad support/ steamworks support?
+
 # Documentation
 
 ## How to write a story

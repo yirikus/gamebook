@@ -19,6 +19,32 @@ html {
   /* Custom page CSS
   -------------------------------------------------- */
 
+.mapCell {
+    z-index: 100;
+    width: 35px;
+    height: 35px;
+    text-align: center;
+}
+
+.playerLoc {
+    background-color: red;
+}
+
+.map {
+    position: absolute;
+    left: -100px
+}
+
+.mapCell span {
+    position:relative;
+    /*top: 50px;*/
+}
+
+.mapImg {
+    width:35px;
+    height:35px;
+}
+
 .emp1 {
     color: brown;
 }

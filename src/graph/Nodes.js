@@ -12,8 +12,24 @@ Nodes.connectable = (nodes) => {
 
 Nodes.countPaths = (nodes) => {
     let count = 0;
-    nodes.forEach(n => count += n.getFreeTransitionCount());
+    nodes.forEach(n => count += n.getRemainingTransitions());
     return count;
+}
+
+Nodes.findAdjacentNodes = (node, nodes) => {
+    let adjacentCoords = Nodes.findAdjacentCoords(node)
+    let adjacentNodes = [];
+    adjacentCoords.forEach(a => adjacentNodes.concat(nodes.filter(n => n.x == a.x && n.y == a.y)));
+    return adjacentNodes;
+}
+
+Nodes.findAdjacentCoords = (node) => {
+    return [
+        {x: node.x+1,y: node.y},
+        {x: node.x,y: node.y+1},
+        {x: node.x-1,y: node.y},
+        {x: node.x,y: node.y-1},
+    ];
 }
 
 Nodes.maxTransitionsReached = (node) => {
